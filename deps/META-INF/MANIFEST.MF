@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Specification-Title: ObjModelImporterJFX
+Specification-Vendor: InteractiveMesh e.K.
+Specification-Version: 0.8 - preliminary
+Implementation-Title: ObjModelImporterJFX
+Implementation-Vendor: InteractiveMesh e.K.
+Implementation-Version: 0.8 - early access
+Permissions: all-permissions
+
+
