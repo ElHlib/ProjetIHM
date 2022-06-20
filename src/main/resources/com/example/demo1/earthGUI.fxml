@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="650.0" prefWidth="802.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.EarthController">
     <children>
         <Pane fx:id="pane3D" layoutY="6.0" prefHeight="600.0" prefWidth="600.0" />
+      <HBox layoutY="601.0" prefHeight="76.0" prefWidth="594.0" />
+      <VBox layoutX="594.0" prefHeight="677.0" prefWidth="208.0">
+         <children>
+            <DatePicker />
+            <ListView prefHeight="200.0" prefWidth="200.0" />
+         </children></VBox>
     </children>
 </AnchorPane>

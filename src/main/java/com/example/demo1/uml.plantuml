@@ -1,0 +1,72 @@
+@startuml
+
+note left of EarthController::"initialize()"
+Va récupérer les données insérées dans les champs de controles du FXML,
+selon les données, la méthode va appeler certaines méthodes de la classe.
+Il contient aussi la camera qui va tourner autour du globe grâce à la souris.
+end note
+note right of EarthController::"displaySpecies(Group root, Animal currentAnimal)"
+La méthode va afficher des zones selon la densité des animaux sur la planète.
+Elle sera appelée au lancement de l'application pour afficher les zones d'une espèce
+extraites d'un fichier JSON.
+end note
+note right of DonnéesAnimal::"nameToUrl(String name)"
+Récupère l'url selon les informations qui sont non nulles dans l'objet Animal.
+end note
+class Animal{
+    String Scientificname
+    String Speciesname
+    ArrayList<Coord> Coordinates
+    ArrayList<InfoSignalement> Signalements
+    string dateMin
+    string dateMax
+    void setDates(string datemin, string datemax)
+    void addCoord(Coord coord)
+  }
+class InfoSignalement{
+  String Order
+  String superclass
+  String RecordedBy
+  String species
+  InfoSignalement(String order, String superclass, String recordedby, String species)
+}
+InfoSignalement--Animal
+class Coord{
+    float latitude
+    float longitude
+    String geohash
+    Coord(float latitude, float longitude, int geohash)
+    void setLatLon(float latitude, float longitude)
+    void setGeohash(int geohash)
+
+}
+class EarthController {
+  Group root
+  currentAnimal : DonnéesAnimal
+  void initialize()
+  void afficherGlobe(Group root)
+  void displaySpecies(Group root, Animal currentAnimal)
+  Array<Animal> getGeoCoordClicked(event)
+  Point3D geoCoordToPoint3D(Coord coord)
+  Point2D 3DCoordToPoint2D(Point3D coord)
+}
+class DonnéesAnimal{
+  currentAnimal : Animal
+  void setAnimal(OccurencesAnimal animal)
+  Animal getAnimal()
+  String nameToUrl(String name)
+  JSONObject readJSONfromURL(String url)
+  JSONObject readJSONfromFile(String filename)
+  Animal JSONObjectToAnimal(JSONObject json)
+  String GPStoGeohash(Point2D point)
+}
+EarthController -- DonnéesAnimal
+DonnéesAnimal -- Animal
+class EarthStart{
+   start(primaryStage)
+}
+Coord -- Animal
+EarthStart -- EarthController
+
+
+@enduml

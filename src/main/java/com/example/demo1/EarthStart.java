@@ -7,19 +7,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class EarthTest extends Application {
-
-
+public class EarthStart extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
-
-        //Create a Pane et graph scene root for the 3D content
 
         Parent content = FXMLLoader.load(getClass().getResource("earthGUI.fxml"));
         primaryStage.setTitle("Earth Test");
         primaryStage.setScene(new Scene(content));
         primaryStage.show();
-        // Load geometry
 
     }
 
