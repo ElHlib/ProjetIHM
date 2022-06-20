@@ -9,11 +9,30 @@ public class InfoSignalement {
     String superclass;
     String RecordedBy;
     String species;
-    public InfoSignalement(String scientificname){
-        JSONObject objet = DonnesAnimales.readUrl("https://api.obis.org/v3/taxon/"+scientificname);
-        JSONObject resultatRecherche = objet.getJSONArray("results").getJSONObject(1);
-        this.Order=resultatRecherche.getString("order");
-        this.superclass=resultatRecherche.getString("infraphylum");
-        this.RecordedBy=resultatRecherche.getString("")
+    public InfoSignalement(JSONObject resultatRecherche){
+        try{
+         this.Order=resultatRecherche.getString("order");
+        }catch(Exception e){
+            this.Order="";
+        }
+
+        try{
+            this.superclass=resultatRecherche.getString("superclass");
+        }catch(Exception e){
+            this.superclass="";
+        }
+        try {
+            this.RecordedBy = resultatRecherche.getString("recordedBy");
+        }catch(Exception e){
+            this.RecordedBy="";
+        }
+        try{
+            this.species=resultatRecherche.getString("species");
+        }catch(Exception e){
+            this.species="";
+        }
+        System.out.println(species);
+
+
     }
 }

@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class EarthController implements Initializable {
     @FXML
     private Pane pane3D;
-    DonnesAnimales currentAnimal = new DonnesAnimales();
+    DonnesAnimales currentAnimal = new DonnesAnimales("Delphinidae");
     private static final float TEXTURE_LAT_OFFSET = -0.2f;
     private static final float TEXTURE_LON_OFFSET = 2.8f;
     private static final float TEXTURE_OFFSET = 1.01f;
@@ -64,11 +64,13 @@ public class EarthController implements Initializable {
         return earth;
     }
     public void displaySpecies(Group root){
-        Coord coordi;
+        ArrayList<Coord> coordi= null;
         for(int i=0;i<currentAnimal.getAnimal().Coordinates.size();i++) {
             coordi= currentAnimal.getAnimal().Coordinates.get(i);
+            Double[] points;
+            coordi.toArray(points);
             Point3D point3D = geoCoordToPoint3D(coordi);
-            Sphere sphere = new Sphere(0.01);
+            Polygon polygon = new Polygon(points);
             Group g = new Group();
             PhongMaterial red = new PhongMaterial();
             red.setDiffuseColor(Color.RED);
