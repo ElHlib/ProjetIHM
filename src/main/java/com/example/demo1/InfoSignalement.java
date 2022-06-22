@@ -31,7 +31,7 @@ public class InfoSignalement {
         }catch(Exception e){
             this.species="";
         }
-        System.out.println(species);
+
 
 
     }

@@ -1,6 +1,9 @@
 package com.example.demo1;
 import javafx.event.Event;
+import javafx.scene.control.Alert;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import org.json.*;
 import com.interactivemesh.jfx.importer.ImportException;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
@@ -27,6 +30,7 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.net.http.*;
 import java.util.concurrent.TimeUnit;
@@ -36,6 +40,34 @@ public class EarthController implements Initializable {
     private Pane Pane3D;
     @FXML
     private TextField TextEspece;
+    @FXML
+    private DatePicker DateDebut;
+    @FXML
+    private DatePicker DateFin;
+    @FXML
+    private Pane color0;
+    @FXML
+    private Pane color1;
+    @FXML
+    private Pane color2;
+    @FXML
+    private Pane color3;
+    @FXML
+    private Pane color4;
+    @FXML
+    private Pane color5;
+    @FXML
+    private Label Labelcolor0;
+    @FXML
+    private Label Labelcolor1;
+    @FXML
+    private Label Labelcolor2;
+    @FXML
+    private Label Labelcolor3;
+    @FXML
+    private Label Labelcolor4;
+    @FXML
+    private Label Labelcolor5;
     DonnesAnimales currentAnimal = new DonnesAnimales("Delphinidae");
     private static final float TEXTURE_LAT_OFFSET = -0.2f;
     private static final float TEXTURE_LON_OFFSET = 2.8f;
@@ -69,18 +101,25 @@ public class EarthController implements Initializable {
     }
     public void displaySpecies(Group root){
       ArrayList<Coord> coordi;
+      int max = currentAnimal.getAnimal().max;
         for(int i=0;i<currentAnimal.getAnimal().Coordinates.size();i++) {
             coordi= currentAnimal.getAnimal().Coordinates.get(i);
-            int max = currentAnimal.getAnimal().max;
+
             PhongMaterial mat = new PhongMaterial();
             if(coordi.get(0).occurences<=legendes(max)[0]){mat.setDiffuseColor(Color.ROYALBLUE);}
-            else if(coordi.get(0).occurences<=legendes(max)[1]){mat.setDiffuseColor(Color.AQUAMARINE);System.out.println("1");}
-            else if(coordi.get(0).occurences<=legendes(max)[2]){mat.setDiffuseColor(Color.PALEGREEN);System.out.println("2");}
-            else if(coordi.get(0).occurences<=legendes(max)[3]){mat.setDiffuseColor(Color.KHAKI);System.out.println("3");}
-            else if(coordi.get(0).occurences<=legendes(max)[4]){mat.setDiffuseColor(Color.ORANGE);System.out.println("4");}
-            else if(coordi.get(0).occurences<=legendes(max)[5]){mat.setDiffuseColor(Color.MAROON);System.out.println("5");}
+            else if(coordi.get(0).occurences<=legendes(max)[1]){mat.setDiffuseColor(Color.AQUAMARINE);}
+            else if(coordi.get(0).occurences<=legendes(max)[2]){mat.setDiffuseColor(Color.PALEGREEN);}
+            else if(coordi.get(0).occurences<=legendes(max)[3]){mat.setDiffuseColor(Color.KHAKI);}
+            else if(coordi.get(0).occurences<=legendes(max)[4]){mat.setDiffuseColor(Color.ORANGE);}
+            else if(coordi.get(0).occurences<=legendes(max)[5]){mat.setDiffuseColor(Color.MAROON);}
             AddQuadrilateral(root,geoCoordToPoint3D(coordi.get(2)),geoCoordToPoint3D(coordi.get(1)),geoCoordToPoint3D(coordi.get(0)),geoCoordToPoint3D(coordi.get(3)),mat);
         }
+        Labelcolor0.setText("<="+max/6);
+        Labelcolor1.setText("<="+max*3/12);
+        Labelcolor2.setText("<="+max*3/6);
+        Labelcolor3.setText("<="+max*9/12);
+        Labelcolor4.setText("<="+max*5/6);
+        Labelcolor5.setText("<="+max);
     }
     public int[] legendes(int max){
         int[] leg  = {max / 6, max * 3 / 12, max * 3 / 6, max * 9 / 12, max * 5 / 6, max};
@@ -145,7 +184,6 @@ public class EarthController implements Initializable {
         final MeshView meshView = new MeshView(triangleMesh);
         meshView.setMaterial(material);
         parent.getChildren().add(meshView);
-
     }
 
 
@@ -161,8 +199,28 @@ public class EarthController implements Initializable {
         currentAnimal.readJsonFromFile("Delphinidae.json");
         displaySpecies(earth);
         Pane3D.getChildren().addAll(subscene);
-        TextEspece.set(event->{
+        color0.setStyle("-fx-background-color: #4169E1");
+        color1.setStyle("-fx-background-color: #7FFFD4");
+        color2.setStyle("-fx-background-color: #98FB98");
+        color3.setStyle("-fx-background-color: #F0E68C");
+        color4.setStyle("-fx-background-color: #FFA500");
+        color5.setStyle("-fx-background-color: #800000");
+        TextEspece.setOnAction(event->{
             String espece = TextEspece.getText();
+            JSONObject object = DonnesAnimales.readUrl("https://api.obis.org/v3/checklist?scientificname="+espece);
+            int total = object.getInt("total");
+            if(total==0){
+                TextEspece.setStyle("-fx-background-color:orangered");
+            }else{
+
+                    earth.getChildren().subList(1, earth.getChildren().size()).clear();
+                    TextEspece.setStyle("-fx-background-color:white");
+                    currentAnimal = new DonnesAnimales(espece);
+                    currentAnimal.readJsonFromUrl(currentAnimal.nameToUrl(espece));
+                    displaySpecies(earth);
+
+            }
+
 
         });
         new CameraManager(camera, subscene.getRoot(), root3D);
