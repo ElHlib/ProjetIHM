@@ -1,16 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="650.0" prefWidth="802.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.EarthController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo1.EarthController">
     <children>
-        <Pane fx:id="pane3D" layoutY="6.0" prefHeight="600.0" prefWidth="600.0" />
-      <HBox layoutY="601.0" prefHeight="76.0" prefWidth="594.0" />
-      <VBox layoutX="594.0" prefHeight="677.0" prefWidth="208.0">
-         <children>
-            <DatePicker />
-            <ListView prefHeight="200.0" prefWidth="200.0" />
-         </children></VBox>
+        <Pane prefHeight="577.0" prefWidth="488.0">
+            <children>
+                <Pane fx:id="Pane3D" layoutX="19.0" layoutY="27.0" prefHeight="450.0" prefWidth="450.0" />
+                <Pane layoutX="36.0" layoutY="477.0" prefHeight="123.0" prefWidth="416.0">
+                    <children>
+                        <Label layoutX="85.0" layoutY="35.0" prefHeight="27.0" prefWidth="210.0" text="Légende">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                    </children></Pane>
+            </children>
+        </Pane>
+        <VBox prefHeight="600.0" prefWidth="32.0" />
+        <VBox prefHeight="600.0" prefWidth="264.0">
+            <children>
+                <Pane prefHeight="58.0" prefWidth="309.0">
+                    <children>
+                        <Label contentDisplay="CENTER" layoutX="76.0" layoutY="17.0" prefHeight="25.0" prefWidth="157.0" text="Recherche">
+                            <font>
+                                <Font name="Arial" size="18.0" />
+                            </font>
+                            <padding>
+                                <Insets bottom="20.0" />
+                            </padding>
+                        </Label>
+                        <Separator layoutY="56.0" prefHeight="4.0" prefWidth="264.0" />
+                    </children>
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding></Pane>
+                <Pane prefHeight="123.0" prefWidth="262.0">
+                    <children>
+                        <HBox prefHeight="123.0" prefWidth="282.0">
+                            <children>
+                                <VBox prefHeight="100.0" prefWidth="150.0">
+                                    <children>
+                                        <Label prefWidth="122.0" text="Nom de l'espèce  :">
+                                            <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                            </VBox.margin>
+                                            <padding>
+                                                <Insets top="10.0" />
+                                            </padding>
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <TextField fx:id="TextEspece" prefHeight="25.0" prefWidth="126.0">
+                                            <VBox.margin>
+                                                <Insets right="20.0" />
+                                            </VBox.margin>
+                                        </TextField>
+                                    </children>
+                                </VBox>
+                                <TextArea fx:id="TextEspeceAuto" prefHeight="93.0" prefWidth="138.0">
+                                    <HBox.margin>
+                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                    </HBox.margin>
+                                </TextArea>
+                            </children>
+                        </HBox>
+                    </children>
+                </Pane>
+                <Separator prefWidth="200.0" />
+                <HBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <VBox prefHeight="100.0" prefWidth="150.0">
+                            <children>
+                                <Label prefWidth="122.0" text="Date de départ :">
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" />
+                                    </VBox.margin>
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </Label>
+                                <DatePicker fx:id="DateDebut" prefHeight="25.0" prefWidth="150.0" />
+                            </children>
+                            <HBox.margin>
+                                <Insets right="20.0" />
+                            </HBox.margin>
+                        </VBox>
+                        <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="150.0">
+                            <children>
+                                <Label prefWidth="122.0" text="Date de fin :">
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" />
+                                    </VBox.margin>
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </Label>
+                                <DatePicker fx:id="DateFin" prefHeight="25.0" prefWidth="150.0" />
+                            </children>
+                        </VBox>
+                    </children>
+                    <VBox.margin>
+                        <Insets top="20.0" />
+                    </VBox.margin></HBox>
+                <VBox prefHeight="142.0" prefWidth="264.0">
+                    <children>
+                        <Separator prefWidth="200.0" />
+                        <Label prefHeight="30.0" prefWidth="204.0" text="Listes des signalements">
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                            <padding>
+                                <Insets bottom="10.0" />
+                            </padding>
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="TextSignalement" prefHeight="120.0" prefWidth="264.0">
+                            <VBox.margin>
+                                <Insets bottom="20.0" />
+                            </VBox.margin>
+                        </TextField>
+                        <Separator layoutX="10.0" layoutY="10.0" prefWidth="200.0" />
+                    </children>
+                </VBox>
+                <Pane prefHeight="138.0" prefWidth="264.0">
+                    <children>
+                        <Button fx:id="btnPlay" layoutX="14.0" layoutY="25.0" mnemonicParsing="false" text="▶ Play" />
+                        <Button fx:id="btnPause" layoutX="101.0" layoutY="25.0" mnemonicParsing="false" text="⏸ Pause" />
+                        <Button fx:id="btnStop" layoutX="195.0" layoutY="25.0" mnemonicParsing="false" text="⏹ Stop" />
+                        <ProgressBar layoutX="16.0" layoutY="69.0" prefHeight="25.0" prefWidth="233.0" progress="0.0" />
+                    </children>
+                </Pane>
+            </children>
+        </VBox>
     </children>
-</AnchorPane>
+</HBox>

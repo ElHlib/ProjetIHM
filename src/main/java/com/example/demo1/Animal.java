@@ -13,11 +13,15 @@ public class Animal {
     ArrayList<InfoSignalement> Signalements;
     String dateMin;
     String dateMax;
+    int max=0;
     public Animal(String name){
         this.scientificname=name;
         this.Coordinates = new ArrayList<ArrayList<Coord>>();
         this.Signalements= new ArrayList<InfoSignalement>();
         this.setSignalements();
+    }
+    public void setMax(int max){
+        this.max=max;
     }
     public void setSignalements(){
         String url = "https://api.obis.org/v3/occurrence?scientificname=";

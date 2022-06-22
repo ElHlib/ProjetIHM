@@ -60,15 +60,15 @@ public class DonnesAnimales {
         for(int i =0;i<resultatRecherche.length();i++) {
             JSONObject article = resultatRecherche.getJSONObject(i);
             JSONArray coord = article.getJSONObject("geometry").getJSONArray("coordinates");
-            JSONArray signalements = article.getJSONObject("properties").getJSONArray("n");
-            System.out.println(signalements.get(0));
+            int signalements = article.getJSONObject("properties").getInt("n");
+            if(signalements>this.currentAnimal.max){this.currentAnimal.setMax(signalements);}
             for(int k=0;k<coord.length();k++){
                 ArrayList<Coord> coords = new ArrayList<Coord>();
                 for(int j=0;j<coord.getJSONArray(k).length();j++) {
                     float lat = Float.parseFloat(String.valueOf(coord.getJSONArray(k).getJSONArray(j).get(0)));
                     float lon = Float.parseFloat(String.valueOf(coord.getJSONArray(k).getJSONArray(j).get(1)));
                     Location loc = new Location("selectedGeoHash", lat, lon);
-                    coords.add(new Coord(lat, lon, GeoHashHelper.getGeohash(loc)));
+                    coords.add(new Coord(lat, lon, GeoHashHelper.getGeohash(loc),signalements));
                 }
                 this.currentAnimal.addCoord(coords);
             }
@@ -92,13 +92,14 @@ public class DonnesAnimales {
                 JSONObject article = resultatRecherche.getJSONObject(i);
                 JSONArray coord = article.getJSONObject("geometry").getJSONArray("coordinates");
                 int signalements = article.getJSONObject("properties").getInt("n");
+                if(signalements>this.currentAnimal.max){this.currentAnimal.setMax(signalements);}
                 for(int k=0;k<coord.length();k++){
                     ArrayList<Coord> coords = new ArrayList<Coord>();
                     for(int j=0;j<coord.getJSONArray(k).length();j++) {
-                        float lat = Float.parseFloat(String.valueOf(coord.getJSONArray(k).getJSONArray(j).get(0)));
-                        float lon = Float.parseFloat(String.valueOf(coord.getJSONArray(k).getJSONArray(j).get(1)));
+                        float lon = Float.parseFloat(String.valueOf(coord.getJSONArray(k).getJSONArray(j).get(0)));
+                        float lat = Float.parseFloat(String.valueOf(coord.getJSONArray(k).getJSONArray(j).get(1)));
                         Location loc = new Location("selectedGeoHash", lat, lon);
-                        coords.add(new Coord(lat, lon, GeoHashHelper.getGeohash(loc)));
+                        coords.add(new Coord(lat, lon, GeoHashHelper.getGeohash(loc),signalements));
                     }
                     this.currentAnimal.addCoord(coords);
                 }
