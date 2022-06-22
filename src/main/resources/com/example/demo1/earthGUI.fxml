@@ -28,29 +28,29 @@
                             </children>
                         </HBox>
                         <Button layoutX="295.0" layoutY="41.0" mnemonicParsing="false" text="Histogramme" />
-                        <Label fx:id="Labelcolor0" layoutX="22.0" layoutY="84.0" text="Label" >
+                        <Label fx:id="Labelcolor0" layoutX="22.0" layoutY="84.0" text="Label">
                             <font>
-                                <Font size="9.0"/>
+                                <Font size="9.0" />
                             </font></Label>
-                        <Label fx:id="Labelcolor1" layoutX="61.0" layoutY="84.0" text="Label" >
+                        <Label fx:id="Labelcolor1" layoutX="61.0" layoutY="84.0" text="Label">
                             <font>
-                                <Font size="9.0"/>
+                                <Font size="9.0" />
                             </font></Label>
-                        <Label fx:id="Labelcolor2" layoutX="103.0" layoutY="84.0" text="Label" >
+                        <Label fx:id="Labelcolor2" layoutX="103.0" layoutY="84.0" text="Label">
                             <font>
-                                <Font size="9.0"/>
+                                <Font size="9.0" />
                             </font></Label>
-                        <Label fx:id="Labelcolor3" layoutX="140.0" layoutY="84.0" text="Label" >
+                        <Label fx:id="Labelcolor3" layoutX="140.0" layoutY="84.0" text="Label">
                             <font>
-                                <Font size="9.0"/>
+                                <Font size="9.0" />
                             </font></Label>
-                        <Label fx:id="Labelcolor4" layoutX="180.0" layoutY="84.0" text="Label" >
+                        <Label fx:id="Labelcolor4" layoutX="180.0" layoutY="84.0" text="Label">
                             <font>
-                                <Font size="9.0"/>
+                                <Font size="9.0" />
                             </font></Label>
-                        <Label fx:id="Labelcolor5" layoutX="219.0" layoutY="84.0" text="Label" >
+                        <Label fx:id="Labelcolor5" layoutX="219.0" layoutY="84.0" text="Label">
                             <font>
-                                <Font size="9.0"/>
+                                <Font size="9.0" />
                             </font></Label>
                     </children></Pane>
             </children>
@@ -78,9 +78,9 @@
                     </padding></Pane>
                 <Pane prefHeight="157.0" prefWidth="264.0">
                     <children>
-                        <HBox layoutY="-5.0" prefHeight="115.0" prefWidth="282.0">
+                        <HBox layoutY="-5.0" prefHeight="97.0" prefWidth="282.0">
                             <children>
-                                <VBox prefHeight="100.0" prefWidth="150.0">
+                                <VBox prefHeight="113.0" prefWidth="150.0">
                                     <children>
                                         <Label prefWidth="122.0" text="Nom de l'espèce :">
                                             <VBox.margin>
@@ -93,21 +93,12 @@
                                                 <Font size="14.0" />
                                             </font>
                                         </Label>
-                                        <TextField fx:id="TextEspece" prefHeight="25.0" prefWidth="126.0">
-                                            <VBox.margin>
-                                                <Insets right="20.0" />
-                                            </VBox.margin>
-                                        </TextField>
+                              <ComboBox fx:id="combobox" prefWidth="150.0" />
                                     </children>
                                 </VBox>
-                                <TextArea fx:id="TextEspeceAuto" prefHeight="93.0" prefWidth="138.0">
-                                    <HBox.margin>
-                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                    </HBox.margin>
-                                </TextArea>
                             </children>
                         </HBox>
-                        <MenuButton layoutX="141.0" layoutY="110.0" mnemonicParsing="false" text="MenuButton">
+                        <MenuButton layoutX="14.0" layoutY="103.0" mnemonicParsing="false" text="MenuButton">
                             <items>
                                 <MenuItem mnemonicParsing="false" text="Action 1" />
                                 <MenuItem mnemonicParsing="false" text="Action 2" />

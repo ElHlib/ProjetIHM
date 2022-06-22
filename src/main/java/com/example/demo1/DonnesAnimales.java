@@ -83,6 +83,7 @@ public class DonnesAnimales {
         return sb.toString();
     }
     void readJsonFromFile(String filename){
+
         try(Reader reader = new FileReader(filename)){
             BufferedReader rd = new BufferedReader(reader);
             String jsonText =readAll(rd);

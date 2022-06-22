@@ -1,8 +1,8 @@
 package com.example.demo1;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
-import javafx.scene.control.Alert;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Modality;
 import org.json.*;
 import com.interactivemesh.jfx.importer.ImportException;
@@ -13,7 +13,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
-import javafx.scene.control.Label;
 import javafx.scene.effect.Light;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
@@ -38,12 +37,13 @@ import java.util.concurrent.TimeUnit;
 public class EarthController implements Initializable {
     @FXML
     private Pane Pane3D;
-    @FXML
-    private TextField TextEspece;
+
     @FXML
     private DatePicker DateDebut;
     @FXML
     private DatePicker DateFin;
+    @FXML
+    private  ComboBox<String> combobox;
     @FXML
     private Pane color0;
     @FXML
@@ -205,18 +205,34 @@ public class EarthController implements Initializable {
         color3.setStyle("-fx-background-color: #F0E68C");
         color4.setStyle("-fx-background-color: #FFA500");
         color5.setStyle("-fx-background-color: #800000");
-        TextEspece.setOnAction(event->{
-            String espece = TextEspece.getText();
+        combobox.setEditable(true) ;
+
+        combobox.setOnAction(event->{
+
+
+                String espece = combobox.getValue();
+
+
+
+
             JSONObject object = DonnesAnimales.readUrl("https://api.obis.org/v3/checklist?scientificname="+espece);
+            ObservableList<String> items = FXCollections.observableArrayList(completerNoms(combobox.getValue()));
+            combobox.setItems(items);
+            //combobox.setValue(espece);
+
+
+
             int total = object.getInt("total");
+
             if(total==0){
-                TextEspece.setStyle("-fx-background-color:orangered");
+                combobox.setStyle("-fx-background-color:orangered");
+
             }else{
 
                     earth.getChildren().subList(1, earth.getChildren().size()).clear();
-                    TextEspece.setStyle("-fx-background-color:white");
-                    currentAnimal = new DonnesAnimales(espece);
-                    currentAnimal.readJsonFromUrl(currentAnimal.nameToUrl(espece));
+                    combobox.setStyle("-fx-background-color:white");
+                    currentAnimal = new DonnesAnimales(combobox.getValue());
+                    currentAnimal.readJsonFromUrl(currentAnimal.nameToUrl(combobox.getValue()));
                     displaySpecies(earth);
 
             }
@@ -232,4 +248,44 @@ public class EarthController implements Initializable {
 
 
     }
+    public static ArrayList<String> completerNoms(String debut) {
+
+        ArrayList<String> premiersNoms = new ArrayList<String>();
+
+        JSONArray json=readJsonArrayFromUrl("https://api.obis.org/v3/taxon/complete/verbose/" + debut);
+
+        for(int i =0 ; i<json.length(); i++) {
+
+            premiersNoms.add(json.getJSONObject(i).get("scientificName").toString());
+
+        }
+        return premiersNoms;
+    }
+    public static JSONArray readJsonArrayFromUrl(String url) {
+
+        String json = "";
+
+        HttpClient client = HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_1_1)
+                .followRedirects(HttpClient.Redirect.NORMAL)
+                .connectTimeout(Duration.ofSeconds(20))
+                .build();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .timeout(Duration.ofMinutes(2))
+                .header("Content-Type", "application/json")
+                .GET()
+                .build();
+
+        try {
+            json=client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(HttpResponse::body).get(10, TimeUnit.SECONDS);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return new JSONArray(json);
+    }
+
 }
