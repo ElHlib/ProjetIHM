@@ -25,7 +25,9 @@ public class Animal {
     }
     public void setSignalements(){
         String url = "https://api.obis.org/v3/occurrence?scientificname=";
-        url+= scientificname;
+
+        String name = scientificname.replaceAll("\\s+","%20");
+        url+= name;
         JSONObject objet = DonnesAnimales.readUrl(url);
         JSONArray array = objet.getJSONArray("results");
         for(int i =0; i<array.length();i++){

@@ -27,7 +27,7 @@
                                 <Pane fx:id="color5" layoutX="56.0" layoutY="10.0" prefHeight="60.0" prefWidth="60.0" style="-fx-border-width: 1; -fx-border-style: solid;" />
                             </children>
                         </HBox>
-                        <Button layoutX="295.0" layoutY="41.0" mnemonicParsing="false" text="Histogramme" />
+                        <Button fx:id="histogrammebutton" layoutX="295.0" layoutY="41.0" mnemonicParsing="false" text="Histogramme" />
                         <Label fx:id="Labelcolor0" layoutX="22.0" layoutY="84.0" text="Label">
                             <font>
                                 <Font size="9.0" />
@@ -93,7 +93,7 @@
                                                 <Font size="14.0" />
                                             </font>
                                         </Label>
-                              <ComboBox fx:id="combobox" prefWidth="150.0" />
+                                        <ComboBox fx:id="combobox" prefWidth="150.0" />
                                     </children>
                                 </VBox>
                             </children>
@@ -156,11 +156,11 @@
                                 <Font size="14.0" />
                             </font>
                         </Label>
-                        <TextField fx:id="TextSignalement" prefHeight="120.0" prefWidth="264.0">
+                        <ListView fx:id="TextSignalement" prefHeight="120.0" prefWidth="264.0">
                             <VBox.margin>
                                 <Insets bottom="20.0" />
                             </VBox.margin>
-                        </TextField>
+                        </ListView>
                         <Separator layoutX="10.0" layoutY="10.0" prefWidth="200.0" />
                     </children>
                 </VBox>

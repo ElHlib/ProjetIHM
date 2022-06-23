@@ -30,6 +30,8 @@ public class DonnesAnimales {
     }
     String nameToUrl(String name){
         String res = "https://api.obis.org/v3/occurrence/grid/3?scientificname=";
+        name = name.replaceAll("\\s+", "%20");
+        System.out.println(name);
         res+=name;
         return res;
     }
