@@ -381,7 +381,6 @@ public class EarthController implements Initializable {
 
                 currentAnimal =new DonnesAnimales(TextSignalement.getSelectionModel().getSelectedItem());
                 String nameurl = currentAnimal.nameToUrl(TextSignalement.getSelectionModel().getSelectedItem());
-                System.out.println(nameurl);
                 currentAnimal.readJsonFromUrl(nameurl);
                 earth.getChildren().subList(1, earth.getChildren().size()).clear();
                 combobox.setStyle("-fx-background-color:white");
