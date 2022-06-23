@@ -1,4 +1,4 @@
-package com.example.demo1;
+package com.example.Project;
 
 import javafx.event.EventHandler;
 import javafx.scene.*;

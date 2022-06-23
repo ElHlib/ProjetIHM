@@ -1,11 +1,11 @@
-package com.example.demo1;
+package com.example.Project;
 
-public class Coord {
+public class Coordonner {
     float latitude;
     float longitude;
     String geohash;
     int occurences;
-    public Coord(float latitude,float longitude,String geohash,int occurences){
+    public Coordonner(float latitude, float longitude, String geohash, int occurences){
         this.latitude=latitude;
         this.longitude=longitude;
         this.geohash=geohash;

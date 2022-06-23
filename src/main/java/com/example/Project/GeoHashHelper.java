@@ -1,4 +1,4 @@
-package com.example.demo1;
+package com.example.Project;
 
 public class GeoHashHelper {
     private static final int MAX_BIT_PRECISION = 64;
@@ -6,11 +6,11 @@ public class GeoHashHelper {
     private static final int[] BITS = { 16, 8, 4, 2, 1 };
     private static final int BASE32_BITS = 5;
 
-    public static String getGeohash(Location location) {
+    public static String getGeohash(Localisation location) {
         return getGeohash(location, MAX_GEOHASH_CHARACTER_PRECISION);
     }
 
-    public static String getGeohash(Location location, int numberOfCharacters) {
+    public static String getGeohash(Localisation location, int numberOfCharacters) {
         int desiredPrecision = getDesiredPrecsion(numberOfCharacters);
         GeoHash geohash = new GeoHash();
 
@@ -53,7 +53,7 @@ public class GeoHashHelper {
         }
     }
 
-    public static Location getLocation(String encodedGeohash) {
+    public static Localisation getLocation(String encodedGeohash) {
         double[] latitudeRange = { -90.0, 90.0 };
         double[] longitudeRange = { -180.0, 180.0 };
 
@@ -78,7 +78,7 @@ public class GeoHashHelper {
         double latitude = (latitudeRange[0] + latitudeRange[1]) / 2;
         double longitude = (longitudeRange[0] + longitudeRange[1]) / 2;
 
-        return new Location(encodedGeohash, latitude, longitude);
+        return new Localisation(encodedGeohash, latitude, longitude);
     }
 
     private static void divideRangeDecode(GeoHash geohash, double[] range, boolean bitIsOn) {

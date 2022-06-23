@@ -1,4 +1,4 @@
-package com.example.demo1;
+package com.example.Project;
 
 import javafx.geometry.Point2D;
 import org.json.JSONArray;
@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 
-public class DonnesAnimales {
+public class DonnesAnimalesJson {
     Animal currentAnimal;
-    public DonnesAnimales(String name){
+    public DonnesAnimalesJson(String name){
         currentAnimal= new Animal(name);
     }
     void SetAnimal(Animal animal){
@@ -28,6 +28,7 @@ public class DonnesAnimales {
     Animal getAnimal(){
         return this.currentAnimal;
     }
+
     String nameToUrl(String name){
         String res = "https://api.obis.org/v3/occurrence/grid/3?scientificname=";
         name = name.replaceAll("\\s+", "%20");
@@ -64,12 +65,12 @@ public class DonnesAnimales {
             int signalements = article.getJSONObject("properties").getInt("n");
             if(signalements>this.currentAnimal.max){this.currentAnimal.setMax(signalements);}
             for(int k=0;k<coord.length();k++){
-                ArrayList<Coord> coords = new ArrayList<Coord>();
+                ArrayList<Coordonner> coords = new ArrayList<Coordonner>();
                 for(int j=0;j<coord.getJSONArray(k).length();j++) {
                     float lon = Float.parseFloat(String.valueOf(coord.getJSONArray(k).getJSONArray(j).get(0)));
                     float lat = Float.parseFloat(String.valueOf(coord.getJSONArray(k).getJSONArray(j).get(1)));
-                    Location loc = new Location("selectedGeoHash", lat, lon);
-                    coords.add(new Coord(lat, lon, GeoHashHelper.getGeohash(loc),signalements));
+                    Localisation loc = new Localisation("selectedGeoHash", lat, lon);
+                    coords.add(new Coordonner(lat, lon, GeoHashHelper.getGeohash(loc),signalements));
                 }
                 this.currentAnimal.addCoord(coords);
             }
@@ -96,12 +97,12 @@ public class DonnesAnimales {
                 int signalements = article.getJSONObject("properties").getInt("n");
                 if(signalements>this.currentAnimal.max){this.currentAnimal.setMax(signalements);}
                 for(int k=0;k<coord.length();k++){
-                    ArrayList<Coord> coords = new ArrayList<Coord>();
+                    ArrayList<Coordonner> coords = new ArrayList<Coordonner>();
                     for(int j=0;j<coord.getJSONArray(k).length();j++) {
                         float lon = Float.parseFloat(String.valueOf(coord.getJSONArray(k).getJSONArray(j).get(0)));
                         float lat = Float.parseFloat(String.valueOf(coord.getJSONArray(k).getJSONArray(j).get(1)));
-                        Location loc = new Location("selectedGeoHash", lat, lon);
-                        coords.add(new Coord(lat, lon, GeoHashHelper.getGeohash(loc),signalements));
+                        Localisation loc = new Localisation("selectedGeoHash", lat, lon);
+                        coords.add(new Coordonner(lat, lon, GeoHashHelper.getGeohash(loc),signalements));
                     }
                     this.currentAnimal.addCoord(coords);
                 }
@@ -115,6 +116,47 @@ public class DonnesAnimales {
     }
     String GeoGPStoGeohash(Point2D point){
         return null;
+    }
+
+    public static ArrayList<String> completerNoms(String debut) {
+
+        ArrayList<String> premiersNoms = new ArrayList<String>();
+        String name = debut.replaceAll("\\s+", "%20");
+
+        JSONArray json=readJsonArrayFromUrl("https://api.obis.org/v3/taxon/complete/verbose/" + name);
+
+        for(int i =0 ; i<json.length(); i++) {
+
+            premiersNoms.add(json.getJSONObject(i).get("scientificName").toString());
+
+        }
+        return premiersNoms;
+    }
+    public static JSONArray readJsonArrayFromUrl(String url) {
+
+        String json = "";
+
+        HttpClient client = HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_1_1)
+                .followRedirects(HttpClient.Redirect.NORMAL)
+                .connectTimeout(Duration.ofSeconds(20))
+                .build();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .timeout(Duration.ofMinutes(2))
+                .header("Content-Type", "application/json")
+                .GET()
+                .build();
+
+        try {
+            json=client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(HttpResponse::body).get(10, TimeUnit.SECONDS);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return new JSONArray(json);
     }
 
 }

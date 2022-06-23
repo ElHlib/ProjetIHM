@@ -16,12 +16,12 @@ end note
 class Animal{
     String Scientificname
     String Speciesname
-    ArrayList<Coord> Coordinates
+    ArrayList<Coordonner> Coordinates
     ArrayList<InfoSignalement> Signalements
     string dateMin
     string dateMax
     void setDates(string datemin, string datemax)
-    void addCoord(Coord coord)
+    void addCoord(Coordonner coord)
   }
 class InfoSignalement{
   String Order
@@ -31,11 +31,11 @@ class InfoSignalement{
   InfoSignalement(String order, String superclass, String recordedby, String species)
 }
 InfoSignalement--Animal
-class Coord{
+class Coordonner{
     float latitude
     float longitude
     String geohash
-    Coord(float latitude, float longitude, int geohash)
+    Coordonner(float latitude, float longitude, int geohash)
     void setLatLon(float latitude, float longitude)
     void setGeohash(int geohash)
 
@@ -47,7 +47,7 @@ class EarthController {
   void afficherGlobe(Group root)
   void displaySpecies(Group root, Animal currentAnimal)
   Array<Animal> getGeoCoordClicked(event)
-  Point3D geoCoordToPoint3D(Coord coord)
+  Point3D geoCoordToPoint3D(Coordonner coord)
   Point2D 3DCoordToPoint2D(Point3D coord)
 }
 class DonnéesAnimal{
@@ -65,7 +65,7 @@ DonnéesAnimal -- Animal
 class EarthStart{
    start(primaryStage)
 }
-Coord -- Animal
+Coordonner -- Animal
 EarthStart -- EarthController
 
 

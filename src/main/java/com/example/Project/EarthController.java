@@ -1,40 +1,29 @@
-package com.example.demo1;
+package com.example.Project;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.scene.control.*;
-import javafx.scene.text.Text;
 import javafx.scene.transform.Affine;
-import javafx.stage.Modality;
 import org.json.*;
 import com.interactivemesh.jfx.importer.ImportException;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
-import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
-import javafx.scene.effect.Light;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
-import java.io.*;
-import java.lang.reflect.Array;
-import java.net.URI;
+
 import java.net.URL;
-import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.ResourceBundle;
-import java.net.http.*;
-import java.util.concurrent.TimeUnit;
+
+import static com.example.Project.DonnesAnimalesJson.completerNoms;
+
 
 public class EarthController implements Initializable {
     @FXML
@@ -73,7 +62,7 @@ public class EarthController implements Initializable {
     private Button histogrammebutton;
     @FXML
     private ListView<String> TextSignalement;
-    DonnesAnimales currentAnimal = new DonnesAnimales("Delphinidae");
+    DonnesAnimalesJson currentAnimal = new DonnesAnimalesJson("Delphinidae");
     boolean histogramme = false;
     private static final float TEXTURE_LAT_OFFSET = -0.2f;
     private static final float TEXTURE_LON_OFFSET = 2.8f;
@@ -106,7 +95,7 @@ public class EarthController implements Initializable {
         return earth;
     }
     public void displaySpecies(Group root){
-      ArrayList<Coord> coordi;
+      ArrayList<Coordonner> coordi;
       int max = currentAnimal.getAnimal().max;
         for(int i=0;i<currentAnimal.getAnimal().Coordinates.size();i++) {
             coordi= currentAnimal.getAnimal().Coordinates.get(i);
@@ -132,7 +121,7 @@ public class EarthController implements Initializable {
         return(leg);
     }
 
-    static Point3D geoCoordToPoint3D(Coord coord){
+    static Point3D geoCoordToPoint3D(Coordonner coord){
         float lat_cor = coord.latitude + TEXTURE_LAT_OFFSET;
         float lon_cor = coord.longitude + TEXTURE_LON_OFFSET;
         return new Point3D(-java.lang.Math.sin(java.lang.Math.toRadians(lon_cor)) * java.lang.Math.cos(java.lang.Math.toRadians(lat_cor)) * TEXTURE_OFFSET, -java.lang.Math.sin(java.lang.Math.toRadians(lat_cor ))* TEXTURE_OFFSET, java.lang.Math.cos(java.lang.Math.toRadians(lon_cor)) * java.lang.Math.cos(java.lang.Math.toRadians(lat_cor))* TEXTURE_OFFSET);
@@ -192,46 +181,7 @@ public class EarthController implements Initializable {
     }
 
 
-    public static ArrayList<String> completerNoms(String debut) {
 
-        ArrayList<String> premiersNoms = new ArrayList<String>();
-        String name = debut.replaceAll("\\s+", "%20");
-
-        JSONArray json=readJsonArrayFromUrl("https://api.obis.org/v3/taxon/complete/verbose/" + name);
-
-        for(int i =0 ; i<json.length(); i++) {
-
-            premiersNoms.add(json.getJSONObject(i).get("scientificName").toString());
-
-        }
-        return premiersNoms;
-    }
-    public static JSONArray readJsonArrayFromUrl(String url) {
-
-        String json = "";
-
-        HttpClient client = HttpClient.newBuilder()
-                .version(HttpClient.Version.HTTP_1_1)
-                .followRedirects(HttpClient.Redirect.NORMAL)
-                .connectTimeout(Duration.ofSeconds(20))
-                .build();
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .timeout(Duration.ofMinutes(2))
-                .header("Content-Type", "application/json")
-                .GET()
-                .build();
-
-        try {
-            json=client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                    .thenApply(HttpResponse::body).get(10, TimeUnit.SECONDS);
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-        return new JSONArray(json);
-    }
     public static Affine lookAt(Point3D from, Point3D to, Point3D ydir) {
 
         Point3D zVec = to.subtract(from).normalize();
@@ -255,7 +205,7 @@ public class EarthController implements Initializable {
         return root;
     }
     public void DisplayHistogramme(Group root){
-        ArrayList<Coord> coordi;
+        ArrayList<Coordonner> coordi;
 
         float translateZ =0;
         int max = currentAnimal.getAnimal().max;
@@ -302,10 +252,10 @@ public class EarthController implements Initializable {
         ArrayList<String> listesanimaux = new ArrayList<String>();
         displayPoint(spaceCoord,root);
         Point2D geoCoord = CoordToPoint2D(spaceCoord);
-        String geohash = GeoHashHelper.getGeohash(new Location("selectedGeoHash", geoCoord.getX(), geoCoord.getY()));
+        String geohash = GeoHashHelper.getGeohash(new Localisation("selectedGeoHash", geoCoord.getX(), geoCoord.getY()));
         geohash = geohash.substring(0, 3);
 
-        JSONObject objet = DonnesAnimales.readUrl("https://api.obis.org/v3/occurrence?geometry="+geohash);
+        JSONObject objet = DonnesAnimalesJson.readUrl("https://api.obis.org/v3/occurrence?geometry="+geohash);
 
         JSONArray especes = objet.getJSONArray("results");
 
@@ -341,7 +291,7 @@ public class EarthController implements Initializable {
         combobox.setOnAction(event->{
             String espece = combobox.getValue();
             String name = espece.replaceAll("\\s+", "%20");
-            JSONObject object = DonnesAnimales.readUrl("https://api.obis.org/v3/checklist?scientificname="+name);
+            JSONObject object = DonnesAnimalesJson.readUrl("https://api.obis.org/v3/checklist?scientificname="+name);
             ObservableList<String> items = FXCollections.observableArrayList(completerNoms(combobox.getValue()));
             combobox.setItems(items);
             //combobox.setValue(espece);
@@ -357,7 +307,7 @@ public class EarthController implements Initializable {
 
                 earth.getChildren().subList(1, earth.getChildren().size()).clear();
                 combobox.setStyle("-fx-background-color:white");
-                currentAnimal = new DonnesAnimales(combobox.getValue());
+                currentAnimal = new DonnesAnimalesJson(combobox.getValue());
                 currentAnimal.readJsonFromUrl(currentAnimal.nameToUrl(combobox.getValue()));
                 displaySpecies(earth);
 
@@ -379,7 +329,7 @@ public class EarthController implements Initializable {
         TextSignalement.setOnMouseClicked(event->{
             if(TextSignalement.getSelectionModel().getSelectedItem()!=null){
 
-                currentAnimal =new DonnesAnimales(TextSignalement.getSelectionModel().getSelectedItem());
+                currentAnimal =new DonnesAnimalesJson(TextSignalement.getSelectionModel().getSelectedItem());
                 String nameurl = currentAnimal.nameToUrl(TextSignalement.getSelectionModel().getSelectedItem());
                 currentAnimal.readJsonFromUrl(nameurl);
                 earth.getChildren().subList(1, earth.getChildren().size()).clear();
@@ -396,6 +346,7 @@ public class EarthController implements Initializable {
               TextSignalement.setItems(items);
             }
         });
+
 
 
     }

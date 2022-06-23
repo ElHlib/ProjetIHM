@@ -1,4 +1,4 @@
-package com.example.demo1;
+package com.example.Project;
 
 public class Constants {
     public static final char[] BASE32 = {

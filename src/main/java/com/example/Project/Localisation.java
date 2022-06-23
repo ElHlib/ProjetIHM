@@ -1,11 +1,11 @@
-package com.example.demo1;
+package com.example.Project;
 
-public final class Location {
+public final class Localisation {
     private final String name;
     private final double latitude;
     private final double longitude;
 
-    public Location(String name, double latitude, double longitude) {
+    public Localisation(String name, double latitude, double longitude) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;

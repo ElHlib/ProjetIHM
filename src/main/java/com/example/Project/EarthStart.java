@@ -1,4 +1,4 @@
-package com.example.demo1;
+package com.example.Project;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +14,7 @@ public class EarthStart extends Application {
         Parent content = FXMLLoader.load(getClass().getResource("earthGUI.fxml"));
         primaryStage.setTitle("Earth Test");
         primaryStage.setScene(new Scene(content));
-        primaryStage.setMinHeight(720);
+        primaryStage.setMinHeight(700);
         primaryStage.setMinWidth(850);
         primaryStage.show();
 

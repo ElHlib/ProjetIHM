@@ -1,7 +1,6 @@
-package com.example.demo1;
+package com.example.Project;
 
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class InfoSignalement {
