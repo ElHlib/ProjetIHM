@@ -5,12 +5,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="832.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Project.EarthController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="648.0" prefWidth="839.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Project.EarthController">
     <children>
-        <Pane prefHeight="577.0" prefWidth="488.0">
-            <children>
-                <Pane fx:id="Pane3D" layoutX="14.0" layoutY="14.0" prefHeight="450.0" prefWidth="450.0" />
-                <Pane layoutY="447.0" prefHeight="139.0" prefWidth="488.0">
+      <VBox>
+         <children>
+              <Pane fx:id="Pane3D" prefHeight="450.0" prefWidth="450.0">
+               <VBox.margin>
+                  <Insets bottom="20.0" left="10.0" top="10.0" />
+               </VBox.margin></Pane>
+                <Pane fx:id="btnreset" prefHeight="122.0" prefWidth="468.0">
                     <children>
                         <HBox layoutX="11.0" layoutY="32.0" prefHeight="34.0" prefWidth="185.0">
                             <children>
@@ -26,54 +29,80 @@
                             <font>
                                 <Font size="9.0" />
                             </font>
-                        </Label>
+                  </Label>
                         <Label fx:id="Labelcolor1" layoutX="45.0" layoutY="71.0" text="Label">
                             <font>
                                 <Font size="9.0" />
                             </font>
-                        </Label>
+                  </Label>
                         <Label fx:id="Labelcolor2" layoutX="72.0" layoutY="71.0" text="Label">
                             <font>
                                 <Font size="9.0" />
                             </font>
-                        </Label>
+                  </Label>
                         <Label fx:id="Labelcolor3" layoutX="104.0" layoutY="71.0" text="Label">
                             <font>
                                 <Font size="9.0" />
                             </font>
-                        </Label>
+                  </Label>
                         <Label fx:id="Labelcolor4" layoutX="138.0" layoutY="71.0" text="Label">
                             <font>
                                 <Font size="9.0" />
                             </font>
-                        </Label>
+                  </Label>
                         <Label fx:id="Labelcolor5" layoutX="168.0" layoutY="71.0" text="Label">
                             <font>
                                 <Font size="9.0" />
                             </font>
-                        </Label>
+                  </Label>
                         <Button fx:id="histogrammebutton" layoutX="374.0" layoutY="36.0" mnemonicParsing="false" text="Histogramme" />
-                        <Button fx:id="resetbtn" layoutX="261.0" layoutY="36.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="88.0" text="Reset" />
-                        <Label layoutX="11.0" layoutY="6.0" prefHeight="20.0" prefWidth="88.0" text="Légende :">
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                        </Label>
-                        <Label fx:id="min" layoutX="14.0" layoutY="97.0" text="Label">
-                            <font>
-                                <Font size="9.0" />
-                            </font>
-                        </Label>
-                        <Label layoutX="45.0" layoutY="97.0" text="Label">
-                            <font>
-                                <Font size="9.0" />
-                            </font>
-                        </Label>
+                  <Button fx:id="resetbtn" layoutX="261.0" layoutY="36.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="88.0" text="Reset" />
+                  <Label layoutX="11.0" layoutY="6.0" prefHeight="20.0" prefWidth="88.0" text="Légende :">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="min" layoutX="14.0" layoutY="97.0" text="Label">
+                     <font>
+                        <Font size="9.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="45.0" layoutY="97.0" text="Label">
+                     <font>
+                        <Font size="9.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="72.0" layoutY="97.0" text="Label">
+                     <font>
+                        <Font size="9.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="104.0" layoutY="97.0" text="Label">
+                     <font>
+                        <Font size="9.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="138.0" layoutY="97.0" text="Label">
+                     <font>
+                        <Font size="9.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="168.0" layoutY="97.0" text="Label">
+                     <font>
+                        <Font size="9.0" />
+                     </font>
+                  </Label>
                     </children>
-                </Pane>
-            </children>
-        </Pane>
-        <VBox prefHeight="600.0" prefWidth="51.0" />
+               <VBox.margin>
+                  <Insets top="40.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </Pane>
+         </children>
+      </VBox>
+        <VBox prefHeight="600.0" prefWidth="74.0" />
         <VBox prefHeight="600.0" prefWidth="264.0">
             <children>
                 <Pane prefHeight="34.0" prefWidth="264.0">
@@ -116,15 +145,15 @@
                                 </VBox>
                             </children>
                         </HBox>
-                        <Label layoutY="69.0" prefHeight="17.0" prefWidth="136.0" text="Degré de précision : ">
-                            <padding>
-                                <Insets bottom="10.0" />
-                            </padding>
-                            <font>
-                                <Font size="14.0" />
-                            </font></Label>
-                        <ComboBox fx:id="btnPrecisions" layoutY="93.0" prefHeight="25.0" prefWidth="39.0" />
-                        <Separator layoutY="130.0" prefHeight="3.0" prefWidth="264.0" />
+                  <Label layoutY="69.0" prefHeight="17.0" prefWidth="136.0" text="Degré de précision : ">
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <ComboBox fx:id="btnPrecisions" layoutY="93.0" prefHeight="25.0" prefWidth="39.0" />
+                      <Separator layoutY="130.0" prefHeight="3.0" prefWidth="264.0" />
                     </children>
                 </Pane>
                 <HBox layoutX="10.0" layoutY="10.0" prefHeight="77.0" prefWidth="264.0">
@@ -184,27 +213,27 @@
                         <Separator layoutX="10.0" layoutY="10.0" prefWidth="200.0" />
                     </children>
                 </VBox>
-                <VBox layoutX="10.0" layoutY="280.0" prefHeight="129.0" prefWidth="264.0">
-                    <children>
-                        <Label prefHeight="30.0" prefWidth="209.0" text="Listes des signalements :">
-                            <VBox.margin>
-                                <Insets top="10.0" />
-                            </VBox.margin>
-                            <padding>
-                                <Insets bottom="10.0" />
-                            </padding>
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                        </Label>
-                        <ListView fx:id="TextSignalement1" prefHeight="120.0" prefWidth="264.0">
-                            <VBox.margin>
-                                <Insets bottom="20.0" />
-                            </VBox.margin>
-                        </ListView>
-                        <Separator layoutX="10.0" layoutY="10.0" prefWidth="200.0" />
-                    </children>
-                </VBox>
+            <VBox layoutX="10.0" layoutY="280.0" prefHeight="129.0" prefWidth="264.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="209.0" text="Listes des signalements :">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="TextSignalement1" prefHeight="120.0" prefWidth="264.0">
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </ListView>
+                  <Separator layoutX="10.0" layoutY="10.0" prefWidth="200.0" />
+               </children>
+            </VBox>
                 <Pane prefHeight="71.0" prefWidth="264.0">
                     <children>
                         <Button fx:id="btnPlay" layoutX="14.0" layoutY="25.0" mnemonicParsing="false" text="▶ Play" />
