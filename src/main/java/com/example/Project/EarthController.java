@@ -23,6 +23,7 @@ import javafx.scene.shape.*;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
@@ -77,6 +78,8 @@ public class EarthController implements Initializable {
     private Button btnStop;
     @FXML
     private ComboBox<String> btnPrecisions;
+    @FXML
+    private Button resetbtn;
     DonnesAnimalesJson currentAnimal = new DonnesAnimalesJson("Delphinidae");
     boolean histogramme = false;
     boolean playing=false;
@@ -85,6 +88,7 @@ public class EarthController implements Initializable {
     private static final float TEXTURE_LON_OFFSET = 2.8f;
     private static final float TEXTURE_OFFSET = 1.01f;
     int geohash =3;
+    boolean reset = false;
     Group earth;
     public Group AfficherGlobe(Group root3D){
         ObjModelImporter objImporter = new ObjModelImporter();
@@ -126,6 +130,7 @@ public class EarthController implements Initializable {
             else if(coordi.get(0).occurences<=legendes(max)[4]){mat.setDiffuseColor(Color.ORANGE);}
             else if(coordi.get(0).occurences<=legendes(max)[5]){mat.setDiffuseColor(Color.MAROON);}
             AddQuadrilateral(root,geoCoordToPoint3D(coordi.get(2)),geoCoordToPoint3D(coordi.get(1)),geoCoordToPoint3D(coordi.get(0)),geoCoordToPoint3D(coordi.get(3)),mat);
+
         }
         Labelcolor0.setText("<="+max/12);
         Labelcolor1.setText("<="+max*3/12);
@@ -170,13 +175,13 @@ public class EarthController implements Initializable {
 
         final TriangleMesh triangleMesh = new TriangleMesh();
 
-        final float[] points = {
-                (float) topRight.getX(), (float) topRight.getY(), (float) topRight.getZ(),
-                (float) topLeft.getX(), (float) topLeft.getY(), (float) topLeft.getZ(),
-                (float) bottomLeft.getX(), (float) bottomLeft.getY(), (float) bottomLeft.getZ(),
-                (float) bottomRight.getX(), (float) bottomRight.getY(), (float) bottomRight.getZ()
-        };
+            final float[] points = {
+                    (float) topRight.getX(), (float) topRight.getY(), (float) topRight.getZ(),
+                    (float) topLeft.getX(), (float) topLeft.getY(), (float) topLeft.getZ(),
+                    (float) bottomLeft.getX(), (float) bottomLeft.getY(), (float) bottomLeft.getZ(),
+                    (float) bottomRight.getX(), (float) bottomRight.getY(), (float) bottomRight.getZ()
 
+        };
         final float[] texCoords = {
                 1, 1,
                 1, 0,
@@ -200,28 +205,17 @@ public class EarthController implements Initializable {
 
 
 
-    public static Affine lookAt(Point3D from, Point3D to, Point3D ydir) {
+    public static Affine direction(Point3D from, Point3D to, Point3D ydir) {
 
-        Point3D zVec = to.subtract(from).normalize();
-        Point3D xVec = ydir.normalize().crossProduct(zVec).normalize();
-        Point3D yVec = zVec.crossProduct(xVec).normalize();
+        Point3D z = to.subtract(from).normalize();
+        Point3D x = ydir.normalize().crossProduct(z).normalize();
+        Point3D y = z.crossProduct(x).normalize();
 
-        return new Affine(xVec.getX(), yVec.getX(), zVec.getX(), from.getX(),
-                xVec.getY(), yVec.getY(), zVec.getY(), from.getY(),
-                xVec.getZ(), yVec.getZ(), zVec.getZ(), from.getZ());
+        return new Affine(x.getX(), y.getX(), z.getX(), from.getX(),
+                x.getY(), y.getY(), z.getY(), from.getY(),
+                x.getZ(), y.getZ(), z.getZ(), from.getZ());
     }
-    public Group displayPoint(Point3D coord, Group root) {
 
-        Sphere sphere = new Sphere(0.005);
-
-        sphere.setTranslateX(coord.getX());
-        sphere.setTranslateY(coord.getY());
-        sphere.setTranslateZ(coord.getZ());
-
-        root.getChildren().add(sphere);
-
-        return root;
-    }
     public void DisplayHistogramme(Group root){
         ArrayList<Coordonner> coordi;
 
@@ -238,21 +232,29 @@ public class EarthController implements Initializable {
             else if(coordi.get(0).occurences<=legendes(max)[3]){mat.setDiffuseColor(Color.KHAKI);}
             else if(coordi.get(0).occurences<=legendes(max)[4]){mat.setDiffuseColor(Color.ORANGE);}
             else if(coordi.get(0).occurences<=legendes(max)[5]){mat.setDiffuseColor(Color.MAROON);}
-            Box box = new Box(0.025f,0.025f,0.01f);
+            Box box=null;
+            if(geohash==1 || geohash==2){
+                box = new Box(0.75f,0.75f,0.01f);
+            }else if(geohash==3){
+                box = new Box(0.025f,0.025f,0.01f);
+            }
+            else if(geohash==4){
+                box = new Box(0.01f,0.01f,0.01f);
+            }
+            else if(geohash==5){
+                box = new Box(0.005f,0.005f,0.01f);
+
+            }
             box.setMaterial(mat);
-            box.setDepth(0.0001f*coordi.get(0).occurences*8000/max);
+            box.setDepth(coordi.get(0).occurences*(0.00005f*10000/max));
             box.setTranslateZ((-box.getDepth())/2);
             Affine affine = new Affine();
-            Point3D from = geoCoordToPoint3D(coordi.get(2)).midpoint(geoCoordToPoint3D(coordi.get(2)));
-            Point3D to = Point3D.ZERO;
-            Point3D yDir = new Point3D(0, 1, 0);
-            affine.append(lookAt(from,to,yDir));
-
-            Group group = new Group();
-            group.getChildren().add(box);
-
-            group.getTransforms().setAll(affine);
-            root.getChildren().addAll(group);
+            Point3D initial = geoCoordToPoint3D(coordi.get(2)).midpoint(geoCoordToPoint3D(coordi.get(2)));
+            affine.append(direction(initial,Point3D.ZERO,new Point3D(0, 1, 0)));
+            Group histo = new Group();
+            histo.getChildren().add(box);
+            histo.getTransforms().setAll(affine);
+            root.getChildren().addAll(histo);
 
 
         }
@@ -268,16 +270,11 @@ public class EarthController implements Initializable {
         PickResult pickResult = clicked.getPickResult();
         Point3D spaceCoord = pickResult.getIntersectedPoint();
         ArrayList<String> listesanimaux = new ArrayList<String>();
-        displayPoint(spaceCoord,root);
         Point2D geoCoord = CoordToPoint2D(spaceCoord);
-        String geohash = GeoHashHelper.getGeohash(new Localisation("selectedGeoHash", geoCoord.getX(), geoCoord.getY()));
-        geohash = geohash.substring(0, 3);
-
-        JSONObject objet = DonnesAnimalesJson.readUrl("https://api.obis.org/v3/occurrence?geometry="+geohash);
-
+        String geohashT = GeoHashHelper.getGeohash(new Localisation("selectedGeoHash", geoCoord.getX(), geoCoord.getY()));
+        geohashT = geohashT.substring(0, 3);
+        JSONObject objet = DonnesAnimalesJson.readUrl("https://api.obis.org/v3/occurrence?geometry="+geohashT);
         JSONArray especes = objet.getJSONArray("results");
-
-
         for(int i =0; i<especes.length();i++){
             if(listesanimaux.contains(especes.getJSONObject(i).getString("scientificName"))==false) {
                 listesanimaux.add(especes.getJSONObject(i).getString("scientificName"));
@@ -307,11 +304,11 @@ public class EarthController implements Initializable {
         color5.setStyle("-fx-background-color: #800000");
         combobox.setEditable(true) ;
         combobox.setOnAction(event->{
-            if(!playing) {
+            if(!playing && !reset && !combobox.getValue().equals(null)) {
                 String espece = combobox.getValue();
                 String name = espece.replaceAll("\\s+", "%20");
                 JSONObject object = DonnesAnimalesJson.readUrl("https://api.obis.org/v3/checklist?scientificname=" + name);
-                ObservableList<String> items = FXCollections.observableArrayList(completerNoms(combobox.getValue()));
+                ObservableList<String> items = FXCollections.observableArrayList(completerNoms(espece));
                 combobox.setItems(items);
                 //combobox.setValue(espece);
                 int total = object.getInt("total");
@@ -320,19 +317,19 @@ public class EarthController implements Initializable {
                     correctespece = false;
                 } else if (DateDebut.getValue() != null && DateFin.getValue() != null) {
                     correctespece = true;
-                    String datedebut = DateDebut.getValue().toString();
-                    String datefin = DateDebut.getValue().toString();
+                    LocalDate datedebut = DateDebut.getValue();
+                    LocalDate datefin = DateDebut.getValue();
                     earth.getChildren().subList(1, earth.getChildren().size()).clear();
                     combobox.setStyle("-fx-background-color:white");
-                    currentAnimal = new DonnesAnimalesJson(combobox.getValue());
+                    currentAnimal = new DonnesAnimalesJson(espece);
                     currentAnimal.readJsonFromUrl("https://api.obis.org/v3/occurrence/grid/"+geohash+"?scientificname=" + name + "&startdate=" + datedebut + "&enddate" + datefin);
                     displaySpecies(earth);
                 } else {
                     correctespece = true;
                     earth.getChildren().subList(1, earth.getChildren().size()).clear();
                     combobox.setStyle("-fx-background-color:white");
-                    currentAnimal = new DonnesAnimalesJson(combobox.getValue());
-                    currentAnimal.readJsonFromUrl(currentAnimal.nameToUrl(combobox.getValue(),geohash));
+                    currentAnimal = new DonnesAnimalesJson(espece);
+                    currentAnimal.readJsonFromUrl(currentAnimal.nameToUrl(espece,geohash));
                     displaySpecies(earth);
                 }
             }
@@ -468,10 +465,7 @@ public class EarthController implements Initializable {
                             "2",
                             "3",
                             "4",
-                            "5",
-                            "6",
-                            "7",
-                            "8"
+                            "5"
                     );
             btnPrecisions.setItems(options);
             btnPrecisions.setValue("3");
@@ -479,6 +473,22 @@ public class EarthController implements Initializable {
                 String item  =btnPrecisions.getSelectionModel().getSelectedItem();
                 geohash = Integer.parseInt(item);
             });
-
+            resetbtn.setOnAction(event->{
+                reset = true;
+                earth.getChildren().subList(1, earth.getChildren().size()).clear();
+                currentAnimal=null;
+                combobox.setValue(null);
+                DateFin.setValue(null);
+                DateDebut.setValue(null);
+                TextSignalement1.getItems().clear();
+                TextEspece.getItems().clear();
+                Labelcolor0.setText(null);
+                Labelcolor1.setText(null);
+                Labelcolor2.setText(null);
+                Labelcolor3.setText(null);
+                Labelcolor4.setText(null);
+                Labelcolor5.setText(null);
+                reset=false;
+            });
         }
 }
