@@ -29,8 +29,8 @@ public class DonnesAnimalesJson {
         return this.currentAnimal;
     }
 
-    String nameToUrl(String name){
-        String res = "https://api.obis.org/v3/occurrence/grid/3?scientificname=";
+    String nameToUrl(String name, int geohash){
+        String res = "https://api.obis.org/v3/occurrence/grid/"+geohash+"?scientificname=";
         name = name.replaceAll("\\s+", "%20");
         res+=name;
         return res;

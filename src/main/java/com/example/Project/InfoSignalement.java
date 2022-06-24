@@ -20,11 +20,6 @@ public class InfoSignalement {
         }catch(Exception e){
             this.superclass="";
         }
-        try {
-            this.RecordedBy = resultatRecherche.getString("recordedBy");
-        }catch(Exception e){
-            this.RecordedBy="";
-        }
         try{
             this.species=resultatRecherche.getString("species");
         }catch(Exception e){

@@ -1,4 +1,6 @@
 package com.example.Project;
+import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -19,8 +21,10 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 import static com.example.Project.DonnesAnimalesJson.completerNoms;
 
@@ -61,13 +65,27 @@ public class EarthController implements Initializable {
     @FXML
     private Button histogrammebutton;
     @FXML
-    private ListView<String> TextSignalement;
+    private ListView<String> TextEspece;
+    @FXML
+    private ListView<String> TextSignalement1;
+
+    @FXML
+    private Button btnPlay;
+    @FXML
+    private Button btnPause;
+    @FXML
+    private Button btnStop;
+    @FXML
+    private ComboBox<String> btnPrecisions;
     DonnesAnimalesJson currentAnimal = new DonnesAnimalesJson("Delphinidae");
     boolean histogramme = false;
+    boolean playing=false;
+    boolean correctespece = true;
     private static final float TEXTURE_LAT_OFFSET = -0.2f;
     private static final float TEXTURE_LON_OFFSET = 2.8f;
     private static final float TEXTURE_OFFSET = 1.01f;
-
+    int geohash =3;
+    Group earth;
     public Group AfficherGlobe(Group root3D){
         ObjModelImporter objImporter = new ObjModelImporter();
         try {
@@ -268,15 +286,17 @@ public class EarthController implements Initializable {
         return listesanimaux;
 
     }
+
     @FXML
     public void initialize(URL location, ResourceBundle resources){
         Group root3D = new Group();
-        Group earth =AfficherGlobe(root3D);
+        earth=AfficherGlobe(root3D);
         PerspectiveCamera camera = new PerspectiveCamera(true);
         SubScene subscene= new SubScene(root3D,450,450,true,SceneAntialiasing.BALANCED);
         subscene.setCamera(camera);
         subscene.setFill(Color.GREY);
         currentAnimal.readJsonFromFile("Delphinidae.json");
+        combobox.setValue("Delphinidae");
         displaySpecies(earth);
         Pane3D.getChildren().addAll(subscene);
         color0.setStyle("-fx-background-color: #4169E1");
@@ -285,36 +305,39 @@ public class EarthController implements Initializable {
         color3.setStyle("-fx-background-color: #F0E68C");
         color4.setStyle("-fx-background-color: #FFA500");
         color5.setStyle("-fx-background-color: #800000");
-
         combobox.setEditable(true) ;
-
         combobox.setOnAction(event->{
-            String espece = combobox.getValue();
-            String name = espece.replaceAll("\\s+", "%20");
-            JSONObject object = DonnesAnimalesJson.readUrl("https://api.obis.org/v3/checklist?scientificname="+name);
-            ObservableList<String> items = FXCollections.observableArrayList(completerNoms(combobox.getValue()));
-            combobox.setItems(items);
-            //combobox.setValue(espece);
-
-
-
-            int total = object.getInt("total");
-
-            if(total==0){
-                combobox.setStyle("-fx-background-color:orangered");
-
-            }else{
-
-                earth.getChildren().subList(1, earth.getChildren().size()).clear();
-                combobox.setStyle("-fx-background-color:white");
-                currentAnimal = new DonnesAnimalesJson(combobox.getValue());
-                currentAnimal.readJsonFromUrl(currentAnimal.nameToUrl(combobox.getValue()));
-                displaySpecies(earth);
-
+            if(!playing) {
+                String espece = combobox.getValue();
+                String name = espece.replaceAll("\\s+", "%20");
+                JSONObject object = DonnesAnimalesJson.readUrl("https://api.obis.org/v3/checklist?scientificname=" + name);
+                ObservableList<String> items = FXCollections.observableArrayList(completerNoms(combobox.getValue()));
+                combobox.setItems(items);
+                //combobox.setValue(espece);
+                int total = object.getInt("total");
+                if (total == 0) {
+                    combobox.setStyle("-fx-background-color:orangered");
+                    correctespece = false;
+                } else if (DateDebut.getValue() != null && DateFin.getValue() != null) {
+                    correctespece = true;
+                    String datedebut = DateDebut.getValue().toString();
+                    String datefin = DateDebut.getValue().toString();
+                    earth.getChildren().subList(1, earth.getChildren().size()).clear();
+                    combobox.setStyle("-fx-background-color:white");
+                    currentAnimal = new DonnesAnimalesJson(combobox.getValue());
+                    currentAnimal.readJsonFromUrl("https://api.obis.org/v3/occurrence/grid/"+geohash+"?scientificname=" + name + "&startdate=" + datedebut + "&enddate" + datefin);
+                    displaySpecies(earth);
+                } else {
+                    correctespece = true;
+                    earth.getChildren().subList(1, earth.getChildren().size()).clear();
+                    combobox.setStyle("-fx-background-color:white");
+                    currentAnimal = new DonnesAnimalesJson(combobox.getValue());
+                    currentAnimal.readJsonFromUrl(currentAnimal.nameToUrl(combobox.getValue(),geohash));
+                    displaySpecies(earth);
+                }
             }
-
-
         });
+
         histogrammebutton.setOnAction(event->{
             if(histogramme){
                 histogramme=false;
@@ -326,28 +349,136 @@ public class EarthController implements Initializable {
                 DisplayHistogramme(earth);
             }
         });
-        TextSignalement.setOnMouseClicked(event->{
-            if(TextSignalement.getSelectionModel().getSelectedItem()!=null){
 
-                currentAnimal =new DonnesAnimalesJson(TextSignalement.getSelectionModel().getSelectedItem());
-                String nameurl = currentAnimal.nameToUrl(TextSignalement.getSelectionModel().getSelectedItem());
+        TextEspece.setOnMouseClicked(event->{
+            if(TextEspece.getSelectionModel().getSelectedItem()!=null){
+                correctespece=true;
+                currentAnimal =new DonnesAnimalesJson(TextEspece.getSelectionModel().getSelectedItem());
+                String nameurl = currentAnimal.nameToUrl(TextEspece.getSelectionModel().getSelectedItem(),geohash);
                 currentAnimal.readJsonFromUrl(nameurl);
                 earth.getChildren().subList(1, earth.getChildren().size()).clear();
                 combobox.setStyle("-fx-background-color:white");
-                combobox.setValue(TextSignalement.getSelectionModel().getSelectedItem());
+                combobox.setValue(TextEspece.getSelectionModel().getSelectedItem());
                 displaySpecies(earth);
             }
         });
-        new CameraManager(camera, subscene.getRoot(), root3D);
-        subscene.addEventHandler(MouseEvent.ANY, event->{
-            if(event.getEventType()== MouseEvent.MOUSE_PRESSED && event.isShiftDown()){
-              ArrayList<String> listeanimaux = getGeoCoordClicked(earth,event);
-                ObservableList<String> items = FXCollections.observableArrayList(listeanimaux);
-              TextSignalement.setItems(items);
+        btnPlay.setOnAction(event-> {
+            if (DateDebut.getValue() != null && DateFin.getValue() != null && playing == false && correctespece == true) {
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        playing = true;
+                        LocalDate datedebut = DateDebut.getValue();
+                        LocalDate datefin = DateFin.getValue();
+                        LocalDate datecurrent = DateDebut.getValue();
+                        String espece = combobox.getValue();
+                        String name = espece.replaceAll("\\s+", "%20");
+                        System.out.println("test");
+                        System.out.println(datecurrent.isBefore(datefin));
+                        while (datecurrent.isBefore(datefin) == true) {
+                            LocalDate finalDatecurrent = datecurrent;
+                            Platform.runLater(() -> {
+                                earth.getChildren().subList(1, earth.getChildren().size()).clear();
+                                currentAnimal = new DonnesAnimalesJson(combobox.getValue());
+                                currentAnimal.readJsonFromUrl("https://api.obis.org/v3/occurrence/grid/" + geohash + "?scientificname=" + name + "&startdate=" + datedebut.toString() + "&enddate" + finalDatecurrent.toString());
+                                System.out.println("test1");
+                                displaySpecies(earth);
+                                try {
+                                    Thread.sleep(2000);
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            });
+
+                            datecurrent = datecurrent.plusYears(5);
+                            if (datecurrent.isAfter(datefin)) {
+                                System.out.println("test2");
+                                datecurrent = datefin;
+                            }
+
+                        }
+                    }
+
+                });
+                thread.start();
+                playing = false;
+
             }
         });
 
+            new CameraManager(camera, subscene.getRoot(), root3D);
+            subscene.addEventHandler(MouseEvent.ANY, event -> {
+                if (event.getEventType() == MouseEvent.MOUSE_PRESSED && event.isShiftDown()) {
+                    ArrayList<String> listeanimaux = getGeoCoordClicked(earth, event);
+                    ObservableList<String> items = FXCollections.observableArrayList(listeanimaux);
+                    TextEspece.setItems(items);
+                } else if (event.getEventType() == MouseEvent.MOUSE_PRESSED && event.isControlDown()) {
+                    TextSignalement1.getItems().clear();
+                    PickResult pickResult = event.getPickResult();
+                    Point3D spaceCoord = pickResult.getIntersectedPoint();
+                    Point2D geoCoord = CoordToPoint2D(spaceCoord);
+                    String geohash = GeoHashHelper.getGeohash(new Localisation("selectedGeoHash", geoCoord.getX(), geoCoord.getY()));
+                    geohash = geohash.substring(0, 3);
+                    String name = currentAnimal.currentAnimal.scientificname.replaceAll("\\s+", "%20");
+                    JSONObject objet = DonnesAnimalesJson.readUrl("https://api.obis.org/v3/occurrence?scientificname=" + name + "&geometry=" + geohash);
+                    if (objet.getInt("total") > 0) {
+                        System.out.println("test");
+                        JSONArray results = objet.getJSONArray("results");
+                        ArrayList<String> listesignalements = new ArrayList<>();
+                        listesignalements.add("Scientificname   order   superclass   species");
+                        String scientificName;
+                        String order;
+                        String superclass;
+                        String species;
+                        for (int i = 0; i < results.length(); i++) {
+                            JSONObject liste = results.getJSONObject(i);
+                            try {
+                                scientificName = liste.getString("scientificName");
+                            }catch(Exception e){
+                                scientificName = "Not found";
+                            }
+                            try {
+                                order =liste.getString("order");
+                            }catch(Exception e){
+                                order = "Not found";
+                            }
+                            try {
+                                superclass =liste.getString("superclass");
+                            }catch(Exception e){
+                                superclass = "Not found";
+                            }
+                            try {
+                                species =liste.getString("species");
+                            }catch(Exception e){
+                                species = "Not found";
+                            }
 
 
-    }
+
+                            listesignalements.add(scientificName + "   " + order + "   " + superclass + "   " + species);
+                        }
+                        ObservableList<String> items = FXCollections.observableArrayList(listesignalements);
+                        TextSignalement1.setItems(items);
+                    }
+                }
+            });
+            ObservableList<String> options =
+                    FXCollections.observableArrayList(
+                            "1",
+                            "2",
+                            "3",
+                            "4",
+                            "5",
+                            "6",
+                            "7",
+                            "8"
+                    );
+            btnPrecisions.setItems(options);
+            btnPrecisions.setValue("3");
+            btnPrecisions.setOnAction(event->{
+                String item  =btnPrecisions.getSelectionModel().getSelectedItem();
+                geohash = Integer.parseInt(item);
+            });
+
+        }
 }
