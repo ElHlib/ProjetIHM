@@ -5,19 +5,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Project.EarthController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="832.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Project.EarthController">
     <children>
         <Pane prefHeight="577.0" prefWidth="488.0">
             <children>
-                <Pane fx:id="Pane3D" layoutX="19.0" layoutY="27.0" prefHeight="450.0" prefWidth="450.0" />
-                <Pane layoutX="36.0" layoutY="477.0" prefHeight="123.0" prefWidth="416.0">
+                <Pane fx:id="Pane3D" layoutX="14.0" layoutY="14.0" prefHeight="450.0" prefWidth="450.0" />
+                <Pane layoutY="447.0" prefHeight="139.0" prefWidth="488.0">
                     <children>
-                        <Label layoutX="14.0" prefHeight="27.0" prefWidth="210.0" text="Légende">
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                        </Label>
-                        <HBox layoutX="14.0" layoutY="33.0" prefHeight="41.0" prefWidth="233.0">
+                        <HBox layoutX="11.0" layoutY="32.0" prefHeight="34.0" prefWidth="185.0">
                             <children>
                                 <Pane fx:id="color0" prefHeight="60.0" prefWidth="60.0" style="-fx-border-width: 1; -fx-border-style: solid;" />
                                 <Pane fx:id="color1" layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="60.0" style="-fx-border-width: 1; -fx-border-style: solid;" />
@@ -27,38 +22,61 @@
                                 <Pane fx:id="color5" layoutX="56.0" layoutY="10.0" prefHeight="60.0" prefWidth="60.0" style="-fx-border-width: 1; -fx-border-style: solid;" />
                             </children>
                         </HBox>
-                        <Button fx:id="histogrammebutton" layoutX="295.0" layoutY="41.0" mnemonicParsing="false" text="Histogramme" />
-                        <Label fx:id="Labelcolor0" layoutX="22.0" layoutY="84.0" text="Label">
+                        <Label fx:id="Labelcolor0" layoutX="14.0" layoutY="71.0" text="Label">
                             <font>
                                 <Font size="9.0" />
-                            </font></Label>
-                        <Label fx:id="Labelcolor1" layoutX="61.0" layoutY="84.0" text="Label">
+                            </font>
+                  </Label>
+                        <Label fx:id="Labelcolor1" layoutX="45.0" layoutY="71.0" text="Label">
                             <font>
                                 <Font size="9.0" />
-                            </font></Label>
-                        <Label fx:id="Labelcolor2" layoutX="103.0" layoutY="84.0" text="Label">
+                            </font>
+                  </Label>
+                        <Label fx:id="Labelcolor2" layoutX="72.0" layoutY="71.0" text="Label">
                             <font>
                                 <Font size="9.0" />
-                            </font></Label>
-                        <Label fx:id="Labelcolor3" layoutX="140.0" layoutY="84.0" text="Label">
+                            </font>
+                  </Label>
+                        <Label fx:id="Labelcolor3" layoutX="104.0" layoutY="71.0" text="Label">
                             <font>
                                 <Font size="9.0" />
-                            </font></Label>
-                        <Label fx:id="Labelcolor4" layoutX="180.0" layoutY="84.0" text="Label">
+                            </font>
+                  </Label>
+                        <Label fx:id="Labelcolor4" layoutX="138.0" layoutY="71.0" text="Label">
                             <font>
                                 <Font size="9.0" />
-                            </font></Label>
-                        <Label fx:id="Labelcolor5" layoutX="219.0" layoutY="84.0" text="Label">
+                            </font>
+                  </Label>
+                        <Label fx:id="Labelcolor5" layoutX="168.0" layoutY="71.0" text="Label">
                             <font>
                                 <Font size="9.0" />
-                            </font></Label>
-                    </children></Pane>
+                            </font>
+                  </Label>
+                        <Button fx:id="histogrammebutton" layoutX="374.0" layoutY="36.0" mnemonicParsing="false" text="Histogramme" />
+                  <Button fx:id="resetbtn" layoutX="261.0" layoutY="36.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="88.0" text="Reset" />
+                  <Label layoutX="11.0" layoutY="6.0" prefHeight="20.0" prefWidth="88.0" text="Légende :">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="min" layoutX="14.0" layoutY="97.0" text="Label">
+                     <font>
+                        <Font size="9.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="45.0" layoutY="97.0" text="Label">
+                     <font>
+                        <Font size="9.0" />
+                     </font>
+                  </Label>
+                    </children>
+            </Pane>
             </children>
         </Pane>
-        <VBox prefHeight="600.0" prefWidth="32.0" />
+        <VBox prefHeight="600.0" prefWidth="51.0" />
         <VBox prefHeight="600.0" prefWidth="264.0">
             <children>
-                <Pane prefHeight="45.0" prefWidth="264.0">
+                <Pane prefHeight="34.0" prefWidth="264.0">
                     <children>
                         <Label contentDisplay="CENTER" layoutX="68.0" prefHeight="25.0" prefWidth="157.0" text="Recherche">
                             <font>
@@ -76,11 +94,11 @@
                     <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                     </padding></Pane>
-                <Pane prefHeight="157.0" prefWidth="264.0">
+                <Pane prefHeight="122.0" prefWidth="264.0">
                     <children>
-                        <HBox layoutY="-5.0" prefHeight="97.0" prefWidth="282.0">
+                        <HBox layoutY="-5.0" prefHeight="70.0" prefWidth="282.0">
                             <children>
-                                <VBox prefHeight="113.0" prefWidth="150.0">
+                                <VBox prefHeight="98.0" prefWidth="150.0">
                                     <children>
                                         <Label prefWidth="122.0" text="Nom de l'espèce :">
                                             <VBox.margin>
@@ -98,18 +116,20 @@
                                 </VBox>
                             </children>
                         </HBox>
-                        <MenuButton layoutX="14.0" layoutY="103.0" mnemonicParsing="false" text="MenuButton">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="Action 1" />
-                                <MenuItem mnemonicParsing="false" text="Action 2" />
-                            </items>
-                        </MenuButton>
+                  <Label layoutY="69.0" prefHeight="17.0" prefWidth="136.0" text="Degré de précision : ">
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <ComboBox fx:id="btnPrecisions" layoutY="93.0" prefHeight="25.0" prefWidth="39.0" />
+                      <Separator layoutY="130.0" prefHeight="3.0" prefWidth="264.0" />
                     </children>
                 </Pane>
-                <Separator prefWidth="200.0" />
-                <HBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0">
+                <HBox layoutX="10.0" layoutY="10.0" prefHeight="77.0" prefWidth="264.0">
                     <children>
-                        <VBox prefHeight="100.0" prefWidth="150.0">
+                        <VBox prefHeight="100.0" prefWidth="137.0">
                             <children>
                                 <Label prefWidth="122.0" text="Date de départ :">
                                     <VBox.margin>
@@ -122,7 +142,7 @@
                                 <DatePicker fx:id="DateDebut" prefHeight="25.0" prefWidth="150.0" />
                             </children>
                             <HBox.margin>
-                                <Insets right="20.0" />
+                                <Insets right="10.0" />
                             </HBox.margin>
                         </VBox>
                         <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="150.0">
@@ -142,10 +162,10 @@
                     <VBox.margin>
                         <Insets top="20.0" />
                     </VBox.margin></HBox>
-                <VBox prefHeight="142.0" prefWidth="264.0">
+                <VBox prefHeight="129.0" prefWidth="264.0">
                     <children>
                         <Separator prefWidth="200.0" />
-                        <Label prefHeight="30.0" prefWidth="204.0" text="Listes des signalements">
+                        <Label prefHeight="30.0" prefWidth="209.0" text="Listes des espèces:">
                             <VBox.margin>
                                 <Insets top="10.0" />
                             </VBox.margin>
@@ -156,7 +176,7 @@
                                 <Font size="14.0" />
                             </font>
                         </Label>
-                        <ListView fx:id="TextSignalement" prefHeight="120.0" prefWidth="264.0">
+                        <ListView fx:id="TextSignalement" prefHeight="94.0" prefWidth="264.0">
                             <VBox.margin>
                                 <Insets bottom="20.0" />
                             </VBox.margin>
@@ -164,12 +184,32 @@
                         <Separator layoutX="10.0" layoutY="10.0" prefWidth="200.0" />
                     </children>
                 </VBox>
-                <Pane prefHeight="138.0" prefWidth="264.0">
+            <VBox layoutX="10.0" layoutY="280.0" prefHeight="129.0" prefWidth="264.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="209.0" text="Listes des signalements :">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="TextSignalement1" prefHeight="120.0" prefWidth="264.0">
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </ListView>
+                  <Separator layoutX="10.0" layoutY="10.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+                <Pane prefHeight="71.0" prefWidth="264.0">
                     <children>
                         <Button fx:id="btnPlay" layoutX="14.0" layoutY="25.0" mnemonicParsing="false" text="▶ Play" />
                         <Button fx:id="btnPause" layoutX="101.0" layoutY="25.0" mnemonicParsing="false" text="⏸ Pause" />
                         <Button fx:id="btnStop" layoutX="195.0" layoutY="25.0" mnemonicParsing="false" text="⏹ Stop" />
-                        <ProgressBar layoutX="16.0" layoutY="69.0" prefHeight="25.0" prefWidth="233.0" progress="0.0" />
                     </children>
                 </Pane>
             </children>
