@@ -111,12 +111,7 @@ public class DonnesAnimalesJson {
             throw new RuntimeException(e);
         }
     }
-    Animal JSONObjectToAnimal(){
-        return null;
-    }
-    String GeoGPStoGeohash(Point2D point){
-        return null;
-    }
+
 
     public static ArrayList<String> completerNoms(String debut) {
 

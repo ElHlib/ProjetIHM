@@ -205,15 +205,15 @@ public class EarthController implements Initializable {
 
 
 
-    public static Affine direction(Point3D from, Point3D to, Point3D ydir) {
+    public static Affine direction(Point3D initial) {
 
-        Point3D z = to.subtract(from).normalize();
-        Point3D x = ydir.normalize().crossProduct(z).normalize();
+        Point3D z = Point3D.ZERO.subtract(initial).normalize();
+        Point3D x = new Point3D(0, 1, 0).normalize().crossProduct(z).normalize();
         Point3D y = z.crossProduct(x).normalize();
 
-        return new Affine(x.getX(), y.getX(), z.getX(), from.getX(),
-                x.getY(), y.getY(), z.getY(), from.getY(),
-                x.getZ(), y.getZ(), z.getZ(), from.getZ());
+        return new Affine(x.getX(), y.getX(), z.getX(), initial.getX(),
+                x.getY(), y.getY(), z.getY(), initial.getY(),
+                x.getZ(), y.getZ(), z.getZ(), initial.getZ());
     }
 
     public void DisplayHistogramme(Group root){
@@ -243,20 +243,17 @@ public class EarthController implements Initializable {
             }
             else if(geohash==5){
                 box = new Box(0.005f,0.005f,0.01f);
-
             }
             box.setMaterial(mat);
             box.setDepth(coordi.get(0).occurences*(0.00005f*10000/max));
             box.setTranslateZ((-box.getDepth())/2);
             Affine affine = new Affine();
             Point3D initial = geoCoordToPoint3D(coordi.get(2)).midpoint(geoCoordToPoint3D(coordi.get(2)));
-            affine.append(direction(initial,Point3D.ZERO,new Point3D(0, 1, 0)));
+            affine.append(direction(initial));
             Group histo = new Group();
             histo.getChildren().add(box);
             histo.getTransforms().setAll(affine);
             root.getChildren().addAll(histo);
-
-
         }
         Labelcolor0.setText("<="+max/12);
         Labelcolor1.setText("<="+max*3/12);
@@ -359,6 +356,7 @@ public class EarthController implements Initializable {
                 displaySpecies(earth);
             }
         });
+        /*
         btnPlay.setOnAction(event-> {
             if (DateDebut.getValue() != null && DateFin.getValue() != null && playing == false && correctespece == true) {
                 Thread thread = new Thread(new Runnable() {
@@ -370,7 +368,6 @@ public class EarthController implements Initializable {
                         LocalDate datecurrent = DateDebut.getValue();
                         String espece = combobox.getValue();
                         String name = espece.replaceAll("\\s+", "%20");
-                        System.out.println("test");
                         System.out.println(datecurrent.isBefore(datefin));
                         while (datecurrent.isBefore(datefin) == true) {
                             LocalDate finalDatecurrent = datecurrent;
@@ -402,7 +399,7 @@ public class EarthController implements Initializable {
 
             }
         });
-
+        */
             new CameraManager(camera, subscene.getRoot(), root3D);
             subscene.addEventHandler(MouseEvent.ANY, event -> {
                 if (event.getEventType() == MouseEvent.MOUSE_PRESSED && event.isShiftDown()) {
@@ -473,22 +470,46 @@ public class EarthController implements Initializable {
                 String item  =btnPrecisions.getSelectionModel().getSelectedItem();
                 geohash = Integer.parseInt(item);
             });
-            resetbtn.setOnAction(event->{
-                reset = true;
+        resetbtn.setOnAction(event -> {
+            try {
                 earth.getChildren().subList(1, earth.getChildren().size()).clear();
-                currentAnimal=null;
-                combobox.setValue(null);
-                DateFin.setValue(null);
-                DateDebut.setValue(null);
-                TextSignalement1.getItems().clear();
-                TextEspece.getItems().clear();
-                Labelcolor0.setText(null);
-                Labelcolor1.setText(null);
-                Labelcolor2.setText(null);
-                Labelcolor3.setText(null);
-                Labelcolor4.setText(null);
-                Labelcolor5.setText(null);
-                reset=false;
-            });
+                correctespece = false;
+                histogramme=false;
+                reset = true;
+                playing = false;
+                combobox.setValue("");
+                new CameraManager(camera, subscene.getRoot(), root3D);
+                TextEspece.setItems(null);
+                reset = true;
+                TextSignalement1.setItems(null);
+                currentAnimal = new DonnesAnimalesJson("");
+
+                Labelcolor0.setText("");
+                Labelcolor1.setText("");
+                Labelcolor2.setText("");
+                Labelcolor3.setText("");
+                Labelcolor4.setText("");
+                Labelcolor5.setText("");
+
+
+                reset = false;
+
+
+            } catch (Exception e) {
+
+
+                new CameraManager(camera, subscene.getRoot(), root3D);
+                TextEspece.setItems(null);
+                TextSignalement1.setItems(null);
+                Labelcolor0.setText("");
+                Labelcolor1.setText("");
+                Labelcolor2.setText("");
+                Labelcolor3.setText("");
+                Labelcolor4.setText("");
+                Labelcolor5.setText("");
+
+
+            }
+        });
         }
 }

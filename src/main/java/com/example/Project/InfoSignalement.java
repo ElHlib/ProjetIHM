@@ -6,7 +6,7 @@ import org.json.JSONObject;
 public class InfoSignalement {
     String Order;
     String superclass;
-    String RecordedBy;
+
     String species;
     public InfoSignalement(JSONObject resultatRecherche){
         try{
