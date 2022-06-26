@@ -1,4 +1,4 @@
-package com.example.Project;
+package com.Project;
 
 public class GeoHash {
     private long bits = 0;

@@ -1,6 +1,5 @@
-package com.example.Project;
+package com.Project;
 
-import javafx.geometry.Point2D;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -21,23 +20,17 @@ public class DonnesAnimalesJson {
     Animal currentAnimal;
 
     /**
-     * contructeur de la classe DonnesAnimalesJson.
+     * Contructeur de la classe DonnesAnimalesJson.
      * @param name
      */
     public DonnesAnimalesJson(String name){
         currentAnimal= new Animal(name);
     }
 
-    /**
-     * methode qui permet de set un animal.
-     * @param animal
-     */
-    void SetAnimal(Animal animal){
-        this.currentAnimal=animal;
-    }
+
 
     /**
-     * methode qui permet de get un animal.
+     * Methode qui permet de get un animal.
      * @return current Animal recherchee.
      */
     Animal getAnimal(){
@@ -45,7 +38,7 @@ public class DonnesAnimalesJson {
     }
 
     /**
-     * methode qui prend en valeur le nom d'animal ainsi que la precision d'affichage pour convertir celle ci en lien  Api
+     * Methode qui prend en valeur le nom d'animal ainsi que la precision d'affichage pour convertir ceux-ci en lien pour l'Api
      * @param name
      * @param geohash
      * @return
@@ -58,7 +51,7 @@ public class DonnesAnimalesJson {
     }
 
     /**
-     * methode qui permet de recuperer le Json file a partir d'un lien api
+     * Methode qui permet de recuperer le Json file a partir d'un lien Api
      * @param url
      * @return JSONObject
      */
@@ -84,7 +77,7 @@ public class DonnesAnimalesJson {
     }
 
     /**
-     * methode qui permet le traitement du Json pour trouver les informations concernant les localisations de l'animal
+     * Methode qui permet le traitement du Json issu d'un lien Api pour trouver les informations concernant les localisations de l'animal
      * @param url
      */
     void readJsonFromUrl(String url){
@@ -96,12 +89,12 @@ public class DonnesAnimalesJson {
             int signalements = article.getJSONObject("properties").getInt("n");
             if(signalements>this.currentAnimal.max){this.currentAnimal.setMax(signalements);}
             for(int k=0;k<coord.length();k++){
-                ArrayList<Coordonner> coords = new ArrayList<Coordonner>();
+                ArrayList<Coordonnees> coords = new ArrayList<Coordonnees>();
                 for(int j=0;j<coord.getJSONArray(k).length();j++) {
                     float lon = Float.parseFloat(String.valueOf(coord.getJSONArray(k).getJSONArray(j).get(0)));
                     float lat = Float.parseFloat(String.valueOf(coord.getJSONArray(k).getJSONArray(j).get(1)));
                     Localisation loc = new Localisation("selectedGeoHash", lat, lon);
-                    coords.add(new Coordonner(lat, lon, GeoHashHelper.getGeohash(loc),signalements));
+                    coords.add(new Coordonnees(lat, lon, GeoHashHelper.getGeohash(loc),signalements));
                 }
                 this.currentAnimal.addCoord(coords);
             }
@@ -109,7 +102,7 @@ public class DonnesAnimalesJson {
     }
 
     /**
-     * methode de  -----------------------------------------
+     * Methode permettant de lire un BufferedReader issu d'un fichier JSON
      * @param rd
      * @return
      * @throws IOException
@@ -122,6 +115,11 @@ public class DonnesAnimalesJson {
         }
         return sb.toString();
     }
+
+    /**
+     * Methode qui permet le traitement du Json issu d'un fichier pour trouver les informations concernant les localisations de l'animal
+     * @param filename
+     */
     void readJsonFromFile(String filename){
 
         try(Reader reader = new FileReader(filename)){
@@ -135,12 +133,12 @@ public class DonnesAnimalesJson {
                 int signalements = article.getJSONObject("properties").getInt("n");
                 if(signalements>this.currentAnimal.max){this.currentAnimal.setMax(signalements);}
                 for(int k=0;k<coord.length();k++){
-                    ArrayList<Coordonner> coords = new ArrayList<Coordonner>();
+                    ArrayList<Coordonnees> coords = new ArrayList<Coordonnees>();
                     for(int j=0;j<coord.getJSONArray(k).length();j++) {
                         float lon = Float.parseFloat(String.valueOf(coord.getJSONArray(k).getJSONArray(j).get(0)));
                         float lat = Float.parseFloat(String.valueOf(coord.getJSONArray(k).getJSONArray(j).get(1)));
                         Localisation loc = new Localisation("selectedGeoHash", lat, lon);
-                        coords.add(new Coordonner(lat, lon, GeoHashHelper.getGeohash(loc),signalements));
+                        coords.add(new Coordonnees(lat, lon, GeoHashHelper.getGeohash(loc),signalements));
                     }
                     this.currentAnimal.addCoord(coords);
                 }
@@ -152,7 +150,7 @@ public class DonnesAnimalesJson {
 
 
     /**
-     * methode qui permet l'autocompletion des noms des differents animaux dans la barre de recherche
+     * Methode qui permet l'autocompletion des noms des differents animaux dans la barre de recherche
      * @param debut
      * @return une liste de String avec tous les animaux possible
      */
@@ -171,7 +169,11 @@ public class DonnesAnimalesJson {
         return premiersNoms;
     }
 
-    // a changer
+    /**
+     * Methode permettant de recuperer un fichier JSON a partir d'une URL
+     * @param url
+     * @return
+     */
 
     public static JSONArray readJsonArrayFromUrl(String url) {
 

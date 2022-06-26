@@ -1,4 +1,4 @@
-package com.example.Project;
+package com.Project;
 
 public class GeoHashHelper {
     private static final int MAX_BIT_PRECISION = 64;

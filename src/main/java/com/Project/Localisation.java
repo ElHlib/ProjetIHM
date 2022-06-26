@@ -1,4 +1,4 @@
-package com.example.Project;
+package com.Project;
 
 public final class Localisation {
     private final String name;
@@ -17,9 +17,6 @@ public final class Localisation {
         this.longitude = longitude;
     }
 
-    public String name() {
-        return name;
-    }
 
     public double lat() {
         return latitude;

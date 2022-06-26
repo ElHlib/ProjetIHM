@@ -6,7 +6,7 @@ module com.example.demo1 {
     requires java.net.http;
 
 
-    opens com.example.Project to javafx.fxml;
-    exports com.example.Project;
+    opens com.Project to javafx.fxml;
+    exports com.Project;
 
 }

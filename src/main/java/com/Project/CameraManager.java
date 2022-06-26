@@ -1,4 +1,4 @@
-package com.example.Project;
+package com.Project;
 
 import javafx.event.EventHandler;
 import javafx.scene.*;
@@ -35,7 +35,7 @@ public class CameraManager {
     private Camera camera;
 
     /**
-     * constructeur de la class camera manager.
+     * Constructeur de la classe camera manager.
      * @param cam
      * @param mainRoot
      * @param root

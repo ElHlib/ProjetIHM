@@ -1,4 +1,4 @@
-package com.example.Project;
+package com.Project;
 
 
 import org.json.JSONObject;
@@ -15,7 +15,7 @@ public class InfoSignalement {
      */
     public InfoSignalement(JSONObject resultatRecherche){
         try{
-         this.Order=resultatRecherche.getString("order");
+            this.Order=resultatRecherche.getString("order");
         }catch(Exception e){
             this.Order="";
         }
