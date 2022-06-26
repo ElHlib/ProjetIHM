@@ -34,6 +34,13 @@ public class CameraManager {
 
     private Camera camera;
 
+    /**
+     * constructeur de la class camera manager.
+     * @param cam
+     * @param mainRoot
+     * @param root
+     */
+
     public CameraManager(Camera cam, Node mainRoot, Group root) {
 
         camera = cam;
@@ -56,6 +63,12 @@ public class CameraManager {
         handleKeyboard(mainRoot, root);
         handleMouse(mainRoot, root);
     }
+
+    /**
+     * handleMouse methode qui permet de changer la camera en fonction de la souris.
+     * @param mainRoot qui est un Node.
+     * @param root qui est un Node.
+     */
 
     private void handleMouse(Node mainRoot, final Node root) {
 
@@ -117,6 +130,12 @@ public class CameraManager {
         });
     }
 
+
+    /**
+     * methode qui permet de changer la camera avec les touches du clavier.
+     * @param mainRoot qui est un Node.
+     * @param root qui est un Node.
+     */
     private void handleKeyboard(Node mainRoot, final Node root) {
         mainRoot.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override

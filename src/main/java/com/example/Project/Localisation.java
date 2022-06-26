@@ -5,6 +5,12 @@ public final class Localisation {
     private final double latitude;
     private final double longitude;
 
+    /**
+     * Constructeur de la classe Localisation
+     * @param name
+     * @param latitude
+     * @param longitude
+     */
     public Localisation(String name, double latitude, double longitude) {
         this.name = name;
         this.latitude = latitude;

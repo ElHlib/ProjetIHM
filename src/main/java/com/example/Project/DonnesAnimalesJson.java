@@ -19,22 +19,49 @@ import java.util.concurrent.TimeUnit;
 
 public class DonnesAnimalesJson {
     Animal currentAnimal;
+
+    /**
+     * contructeur de la classe DonnesAnimalesJson.
+     * @param name
+     */
     public DonnesAnimalesJson(String name){
         currentAnimal= new Animal(name);
     }
+
+    /**
+     * methode qui permet de set un animal.
+     * @param animal
+     */
     void SetAnimal(Animal animal){
         this.currentAnimal=animal;
     }
+
+    /**
+     * methode qui permet de get un animal.
+     * @return current Animal recherchee.
+     */
     Animal getAnimal(){
         return this.currentAnimal;
     }
 
+    /**
+     * methode qui prend en valeur le nom d'animal ainsi que la precision d'affichage pour convertir celle ci en lien  Api
+     * @param name
+     * @param geohash
+     * @return
+     */
     String nameToUrl(String name, int geohash){
         String res = "https://api.obis.org/v3/occurrence/grid/"+geohash+"?scientificname=";
         name = name.replaceAll("\\s+", "%20");
         res+=name;
         return res;
     }
+
+    /**
+     * methode qui permet de recuperer le Json file a partir d'un lien api
+     * @param url
+     * @return JSONObject
+     */
     public static JSONObject readUrl(String url){
         String json = "";
         HttpClient client = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1)
@@ -56,6 +83,10 @@ public class DonnesAnimalesJson {
         return new JSONObject(json);
     }
 
+    /**
+     * methode qui permet le traitement du Json pour trouver les informations concernant les localisations de l'animal
+     * @param url
+     */
     void readJsonFromUrl(String url){
         JSONObject jsonweb=readUrl(url);
         JSONArray resultatRecherche = jsonweb.getJSONArray("features");
@@ -76,6 +107,13 @@ public class DonnesAnimalesJson {
             }
         }
     }
+
+    /**
+     * methode de  -----------------------------------------
+     * @param rd
+     * @return
+     * @throws IOException
+     */
     private static String readAll(Reader rd) throws IOException{
         StringBuilder sb = new StringBuilder();
         int cp ;
@@ -113,6 +151,11 @@ public class DonnesAnimalesJson {
     }
 
 
+    /**
+     * methode qui permet l'autocompletion des noms des differents animaux dans la barre de recherche
+     * @param debut
+     * @return une liste de String avec tous les animaux possible
+     */
     public static ArrayList<String> completerNoms(String debut) {
 
         ArrayList<String> premiersNoms = new ArrayList<String>();
@@ -127,6 +170,9 @@ public class DonnesAnimalesJson {
         }
         return premiersNoms;
     }
+
+    // a changer
+
     public static JSONArray readJsonArrayFromUrl(String url) {
 
         String json = "";

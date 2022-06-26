@@ -31,6 +31,9 @@ import static com.example.Project.DonnesAnimalesJson.completerNoms;
 
 
 public class EarthController implements Initializable {
+
+
+    // toutes les declarations des variables
     @FXML
     private Pane Pane3D;
     @FXML
@@ -90,6 +93,14 @@ public class EarthController implements Initializable {
     int geohash =3;
     boolean reset = false;
     Group earth;
+
+
+    /**
+     * methode qui permet d'afficher le globe terre sur un Pane 
+     * @param root3D
+     * @return 
+     */
+
     public Group AfficherGlobe(Group root3D){
         ObjModelImporter objImporter = new ObjModelImporter();
         try {
@@ -116,6 +127,11 @@ public class EarthController implements Initializable {
         root3D.getChildren().add(ambientLight);
         return earth;
     }
+
+    /**
+     * methode qui permet d'afficher les proportions des especes sur la planete.
+     * @param root
+     */
     public void displaySpecies(Group root){
       ArrayList<Coordonner> coordi;
       int max = currentAnimal.getAnimal().max;
@@ -123,12 +139,12 @@ public class EarthController implements Initializable {
             coordi= currentAnimal.getAnimal().Coordinates.get(i);
 
             PhongMaterial mat = new PhongMaterial();
-            if(coordi.get(0).occurences<=legendes(max)[0]){mat.setDiffuseColor(Color.ROYALBLUE);}
-            else if(coordi.get(0).occurences<=legendes(max)[1]){mat.setDiffuseColor(Color.AQUAMARINE);}
-            else if(coordi.get(0).occurences<=legendes(max)[2]){mat.setDiffuseColor(Color.PALEGREEN);}
-            else if(coordi.get(0).occurences<=legendes(max)[3]){mat.setDiffuseColor(Color.KHAKI);}
-            else if(coordi.get(0).occurences<=legendes(max)[4]){mat.setDiffuseColor(Color.ORANGE);}
-            else if(coordi.get(0).occurences<=legendes(max)[5]){mat.setDiffuseColor(Color.MAROON);}
+            if(coordi.get(0).occurences<=legende(max)[0]){mat.setDiffuseColor(Color.ROYALBLUE);}
+            else if(coordi.get(0).occurences<=legende(max)[1]){mat.setDiffuseColor(Color.AQUAMARINE);}
+            else if(coordi.get(0).occurences<=legende(max)[2]){mat.setDiffuseColor(Color.PALEGREEN);}
+            else if(coordi.get(0).occurences<=legende(max)[3]){mat.setDiffuseColor(Color.KHAKI);}
+            else if(coordi.get(0).occurences<=legende(max)[4]){mat.setDiffuseColor(Color.ORANGE);}
+            else if(coordi.get(0).occurences<=legende(max)[5]){mat.setDiffuseColor(Color.MAROON);}
             AddQuadrilateral(root,geoCoordToPoint3D(coordi.get(2)),geoCoordToPoint3D(coordi.get(1)),geoCoordToPoint3D(coordi.get(0)),geoCoordToPoint3D(coordi.get(3)),mat);
 
         }
@@ -139,16 +155,29 @@ public class EarthController implements Initializable {
         Labelcolor4.setText("<="+max*5/6);
         Labelcolor5.setText("<="+max);
     }
-    public int[] legendes(int max){
+
+    /**
+     * methode qui permet l'affichage adequat de la legende
+     * @param max
+     * @return
+     */
+    public int[] legende(int max){
         int[] leg  = {max / 12, max * 3 / 12, max * 3 / 6, max * 9 / 12, max * 5 / 6, max};
         return(leg);
     }
 
+    /**
+     * methode qui permet de convertir les coordonnes en coordonner spherique pour un affichage adequat sur la terre
+     * @param coord
+     * @return
+     */
     static Point3D geoCoordToPoint3D(Coordonner coord){
         float lat_cor = coord.latitude + TEXTURE_LAT_OFFSET;
         float lon_cor = coord.longitude + TEXTURE_LON_OFFSET;
         return new Point3D(-java.lang.Math.sin(java.lang.Math.toRadians(lon_cor)) * java.lang.Math.cos(java.lang.Math.toRadians(lat_cor)) * TEXTURE_OFFSET, -java.lang.Math.sin(java.lang.Math.toRadians(lat_cor ))* TEXTURE_OFFSET, java.lang.Math.cos(java.lang.Math.toRadians(lon_cor)) * java.lang.Math.cos(java.lang.Math.toRadians(lat_cor))* TEXTURE_OFFSET);
     }
+
+
 
     public Point2D CoordToPoint2D(Point3D coord){
         float lat = (float) (Math.asin(-coord.getY() / TEXTURE_OFFSET)
@@ -226,12 +255,12 @@ public class EarthController implements Initializable {
 
             PhongMaterial mat = new PhongMaterial();
 
-            if(coordi.get(0).occurences<=legendes(max)[0]){mat.setDiffuseColor(Color.ROYALBLUE);}
-            else if(coordi.get(0).occurences<=legendes(max)[1]){mat.setDiffuseColor(Color.AQUAMARINE);}
-            else if(coordi.get(0).occurences<=legendes(max)[2]){mat.setDiffuseColor(Color.PALEGREEN);}
-            else if(coordi.get(0).occurences<=legendes(max)[3]){mat.setDiffuseColor(Color.KHAKI);}
-            else if(coordi.get(0).occurences<=legendes(max)[4]){mat.setDiffuseColor(Color.ORANGE);}
-            else if(coordi.get(0).occurences<=legendes(max)[5]){mat.setDiffuseColor(Color.MAROON);}
+            if(coordi.get(0).occurences<=legende(max)[0]){mat.setDiffuseColor(Color.ROYALBLUE);}
+            else if(coordi.get(0).occurences<=legende(max)[1]){mat.setDiffuseColor(Color.AQUAMARINE);}
+            else if(coordi.get(0).occurences<=legende(max)[2]){mat.setDiffuseColor(Color.PALEGREEN);}
+            else if(coordi.get(0).occurences<=legende(max)[3]){mat.setDiffuseColor(Color.KHAKI);}
+            else if(coordi.get(0).occurences<=legende(max)[4]){mat.setDiffuseColor(Color.ORANGE);}
+            else if(coordi.get(0).occurences<=legende(max)[5]){mat.setDiffuseColor(Color.MAROON);}
             Box box=null;
             if(geohash==1 || geohash==2){
                 box = new Box(0.75f,0.75f,0.01f);
@@ -281,6 +310,11 @@ public class EarthController implements Initializable {
 
     }
 
+    /**
+     * methode qui permet d'initialiser ----
+     * @param location
+     * @param resources
+     */
     @FXML
     public void initialize(URL location, ResourceBundle resources){
         Group root3D = new Group();
@@ -300,6 +334,44 @@ public class EarthController implements Initializable {
         color4.setStyle("-fx-background-color: #FFA500");
         color5.setStyle("-fx-background-color: #800000");
         combobox.setEditable(true) ;
+
+        // on met en place les differentes options pour la precision
+        ObservableList<String> options =
+                FXCollections.observableArrayList(
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5"
+                );
+        btnPrecisions.setItems(options);
+        btnPrecisions.setValue("3");
+
+        // on a un on Action event qui permet d'afficher les localisations de l'especes rechercher avec differentes precision
+        btnPrecisions.setOnAction(event->{
+            String item  =btnPrecisions.getSelectionModel().getSelectedItem();
+            geohash = Integer.parseInt(item);
+            earth.getChildren().subList(1, earth.getChildren().size()).clear(); // on clear la terre
+
+            // on verifie si on une date debut et fin et que notre valeur d'animal est non nulle
+            if (DateDebut.getValue() != null && DateFin.getValue() != null && combobox.getValue() != null) {
+                correctespece = true;
+                LocalDate datedebut = DateDebut.getValue();
+                LocalDate datefin = DateDebut.getValue();
+                earth.getChildren().subList(1, earth.getChildren().size()).clear();
+                combobox.setStyle("-fx-background-color:white");
+                currentAnimal = new DonnesAnimalesJson(combobox.getValue());
+                currentAnimal.readJsonFromUrl("https://api.obis.org/v3/occurrence/grid/"+geohash+"?scientificname=" + combobox.getValue().replaceAll("\\s+", "%20") + "&startdate=" + datedebut + "&enddate" + datefin);
+                displaySpecies(earth);
+            } else if (combobox.getValue() == null){
+                 item  =btnPrecisions.getSelectionModel().getSelectedItem();
+                geohash = Integer.parseInt(item);
+            }
+
+
+
+        });
+        // on verifie si on cherche pas une espece
         combobox.setOnAction(event->{
             if(!playing && !reset && !combobox.getValue().equals(null)) {
                 String espece = combobox.getValue();
@@ -331,7 +403,8 @@ public class EarthController implements Initializable {
                 }
             }
         });
-
+        // on appuis sur le boutons pour afficher l'histogramme
+        //celui ci ne fonctionne pas si aucune espece n est donner
         histogrammebutton.setOnAction(event->{
             if(histogramme){
                 histogramme=false;
@@ -344,6 +417,7 @@ public class EarthController implements Initializable {
             }
         });
 
+        //textespece fonctionne avec un shift double click et cela affiche alors les especes qui sont disponible dans cette zone
         TextEspece.setOnMouseClicked(event->{
             if(TextEspece.getSelectionModel().getSelectedItem()!=null){
                 correctespece=true;
@@ -356,58 +430,16 @@ public class EarthController implements Initializable {
                 displaySpecies(earth);
             }
         });
-        /*
-        btnPlay.setOnAction(event-> {
-            if (DateDebut.getValue() != null && DateFin.getValue() != null && playing == false && correctespece == true) {
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        playing = true;
-                        LocalDate datedebut = DateDebut.getValue();
-                        LocalDate datefin = DateFin.getValue();
-                        LocalDate datecurrent = DateDebut.getValue();
-                        String espece = combobox.getValue();
-                        String name = espece.replaceAll("\\s+", "%20");
-                        System.out.println(datecurrent.isBefore(datefin));
-                        while (datecurrent.isBefore(datefin) == true) {
-                            LocalDate finalDatecurrent = datecurrent;
-                            Platform.runLater(() -> {
-                                earth.getChildren().subList(1, earth.getChildren().size()).clear();
-                                currentAnimal = new DonnesAnimalesJson(combobox.getValue());
-                                currentAnimal.readJsonFromUrl("https://api.obis.org/v3/occurrence/grid/" + geohash + "?scientificname=" + name + "&startdate=" + datedebut.toString() + "&enddate" + finalDatecurrent.toString());
-                                System.out.println("test1");
-                                displaySpecies(earth);
-                                try {
-                                    Thread.sleep(2000);
-                                } catch (InterruptedException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            });
-
-                            datecurrent = datecurrent.plusYears(5);
-                            if (datecurrent.isAfter(datefin)) {
-                                System.out.println("test2");
-                                datecurrent = datefin;
-                            }
-
-                        }
-                    }
-
-                });
-                thread.start();
-                playing = false;
-
-            }
-        });
-        */
             new CameraManager(camera, subscene.getRoot(), root3D);
+
+
             subscene.addEventHandler(MouseEvent.ANY, event -> {
                 if (event.getEventType() == MouseEvent.MOUSE_PRESSED && event.isShiftDown()) {
                     ArrayList<String> listeanimaux = getGeoCoordClicked(earth, event);
                     ObservableList<String> items = FXCollections.observableArrayList(listeanimaux);
                     TextEspece.setItems(items);
                 } else if (event.getEventType() == MouseEvent.MOUSE_PRESSED && event.isControlDown()) {
-                    TextSignalement1.getItems().clear();
+                    //TextSignalement1.getItems().clear();
                     PickResult pickResult = event.getPickResult();
                     Point3D spaceCoord = pickResult.getIntersectedPoint();
                     Point2D geoCoord = CoordToPoint2D(spaceCoord);
@@ -456,20 +488,9 @@ public class EarthController implements Initializable {
                     }
                 }
             });
-            ObservableList<String> options =
-                    FXCollections.observableArrayList(
-                            "1",
-                            "2",
-                            "3",
-                            "4",
-                            "5"
-                    );
-            btnPrecisions.setItems(options);
-            btnPrecisions.setValue("3");
-            btnPrecisions.setOnAction(event->{
-                String item  =btnPrecisions.getSelectionModel().getSelectedItem();
-                geohash = Integer.parseInt(item);
-            });
+
+
+            //reset button un bouton qui permet de reset la camera ainsi que tous les parametres
         resetbtn.setOnAction(event -> {
             try {
                 earth.getChildren().subList(1, earth.getChildren().size()).clear();

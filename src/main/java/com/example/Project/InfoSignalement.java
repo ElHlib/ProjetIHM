@@ -8,6 +8,11 @@ public class InfoSignalement {
     String superclass;
 
     String species;
+
+    /**
+     * Constructeur de la classe InfoSignalement
+     * @param resultatRecherche
+     */
     public InfoSignalement(JSONObject resultatRecherche){
         try{
          this.Order=resultatRecherche.getString("order");

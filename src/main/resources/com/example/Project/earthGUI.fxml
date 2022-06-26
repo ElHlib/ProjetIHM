@@ -62,36 +62,6 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="min" layoutX="14.0" layoutY="97.0" text="Label">
-                     <font>
-                        <Font size="9.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="45.0" layoutY="97.0" text="Label">
-                     <font>
-                        <Font size="9.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="72.0" layoutY="97.0" text="Label">
-                     <font>
-                        <Font size="9.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="104.0" layoutY="97.0" text="Label">
-                     <font>
-                        <Font size="9.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="138.0" layoutY="97.0" text="Label">
-                     <font>
-                        <Font size="9.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="168.0" layoutY="97.0" text="Label">
-                     <font>
-                        <Font size="9.0" />
-                     </font>
-                  </Label>
                     </children>
                <VBox.margin>
                   <Insets top="40.0" />
