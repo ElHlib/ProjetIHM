@@ -539,6 +539,8 @@ public class EarthController implements Initializable {
                 reset = true;
                 TextSignalement1.setItems(null);
                 currentAnimal = new DonnesAnimalesJson("");
+                DateDebut.setValue(null);
+                DateFin.setValue(null);
                 Labelcolor0.setText("");
                 Labelcolor1.setText("");
                 Labelcolor2.setText("");
