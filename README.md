@@ -1,4 +1,8 @@
-# ProjetIHM OBIS 3D 🌎
+<div align="center">
+  
+  # ProjetIHM OBIS 3D 🌎
+  
+</div>
 
 Le but du projet est de réaliser une application permettant de visualiser ces observations sur un globe terrestre
 en 3D. Cette application devra permettre de visualiser pour une espèce donnée le nombre d’observations par
@@ -9,10 +13,12 @@ zone géographique, d’abord à partir d’un fichier, puis en faisant des requ
 <p align="center">
 <img src="https://user-images.githubusercontent.com/98128042/177739370-869289fe-c2f2-4e3b-b3a8-00548a35d840.png"  height="300">
 </p>
+
 * On permet à l'utilisateur d’afficher les occurrences d’une espèce en passant le nom scientifique exact saisi par l’utilisateur. Si le nom n’est pas reconnu, alors l'autocomplétion aidera l'utilisateur à prendre son choix avec la combobox
 <p align="center">
 <img src="https://user-images.githubusercontent.com/98128042/177740111-5b4c91ad-6e13-40ee-a5e7-6bb957746682.png"  height="300">
 </p>
+
 * on donne a l'utilisateur la possibilité de
 saisir deux années pour n’afficher que
 le nombre d'occurrences d’une espèce
@@ -20,18 +26,21 @@ entre ces deux années
 <p align="center">
 <img src="https://user-images.githubusercontent.com/98128042/177740763-4f05f23b-9438-4353-adba-e5818253f997.png"  height="300">
 </p>
+
 * Avec Ctrl + double clic sur n’importe
 quel endroit sur la map cela permet
 d'afficher les signalements
 <p align="center">
 <img src="https://user-images.githubusercontent.com/98128042/177741466-25cc1aa0-672d-4fc3-a713-62398b7076ef.png"  height="300"></em>
 </p>
+
 * Avec Shift + double clic sur la map on
 permet à l'utilisateur d'afficher les
 listes d'espèce dans cet emplacement
 <p align="center">
 <img src="https://user-images.githubusercontent.com/98128042/177742078-68d3db9c-8694-40d3-a396-fdceb2cecc69.png"  height="300">
 </p>
+
 * Histogramme 3D, dont la hauteur et
 la couleur sera fonction des nombres
 d’occurrences de l’espèce
