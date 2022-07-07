@@ -6,8 +6,9 @@ zone géographique, d’abord à partir d’un fichier, puis en faisant des requ
 
 ## Fonctionnalité
 * On peut afficher un globe en 3D et on permet à l’utilisateur de tourner autour grâce à la souris. 
+<p align="center">
 <img src="https://user-images.githubusercontent.com/98128042/177739370-869289fe-c2f2-4e3b-b3a8-00548a35d840.png"  height="300">
-
+</p>
 * On permet à l'utilisateur d’afficher les occurrences d’une espèce en passant le nom scientifique exact saisi par l’utilisateur. Si le nom n’est pas reconnu, alors l'autocomplétion aidera l'utilisateur à prendre son choix avec la combobox
 <p align="center">
 <img src="https://user-images.githubusercontent.com/98128042/177740111-5b4c91ad-6e13-40ee-a5e7-6bb957746682.png"  height="300">
@@ -28,15 +29,15 @@ d'afficher les signalements
 * Avec Shift + double clic sur la map on
 permet à l'utilisateur d'afficher les
 listes d'espèce dans cet emplacement
-
+<p align="center">
 <img src="https://user-images.githubusercontent.com/98128042/177742078-68d3db9c-8694-40d3-a396-fdceb2cecc69.png"  height="300">
-
+</p>
 * Histogramme 3D, dont la hauteur et
 la couleur sera fonction des nombres
 d’occurrences de l’espèce
-
+<p align="center">
 <img src="https://user-images.githubusercontent.com/98128042/177742704-0fae62a4-d8f9-4cc7-8244-f92e17370b8e.png"  height="300">
-
+</p>
 
 
 ## À améliorer
